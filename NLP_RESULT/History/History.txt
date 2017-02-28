@@ -1,0 +1,149 @@
+Line split 0.5Mb
+ begin 2016/02/29 21:02:46
+ end 2016/02/29 21:02:47
+
+Count n-gram 0.5Mb
+ Unigram: 1823
+ Bigram: 474
+ Trigram: 23
+ begin 2016/02/29 21:02:47
+ end 2016/02/29 21:02:48
+
+
+
+Line split 0.5Mb
+ begin 2016/03/29 21:03:20
+ end 2016/03/29 21:03:20
+
+Count n-gram 0.5Mb
+ Unigram: 1823
+ Bigram: 474
+ Trigram: 23
+ begin 2016/03/29 21:03:21
+ end 2016/03/29 21:03:22
+
+
+
+Tokenize 7.0Mb
+ begin 2016/50/01 22:50:50
+ end 2016/55/01 22:55:38
+
+Tokenize 6.0Mb
+ begin 2016/10/01 23:10:07
+ end 2016/15/01 23:15:15
+
+Tokenize 5.0Mb
+ begin 2016/15/01 23:15:40
+ end 2016/25/01 23:25:51
+
+Tokenize 5.0Mb
+ begin 2016/32/01 23:32:26
+ end 2016/41/01 23:41:53
+
+
+
+Tokenize 7.0Mb
+ begin 2016/16/02 17:16:48
+ end 2016/29/02 17:29:10
+
+Tokenize 8.0Mb
+ begin 2016/31/02 17:31:37
+ end 2016/48/02 17:48:12
+
+Tokenize 5.0Mb
+ begin 2016/03/02 18:03:14
+ end 2016/15/02 18:15:59
+
+Tokenize 9.0Mb
+ begin 2016/00/02 19:00:12
+ end 2016/27/02 19:27:12
+
+
+
+Line split 125.6Mb
+ begin 2016/32/04 07:32:21
+ end 2016/33/04 07:33:01
+
+Count n-gram 120.8Mb
+ Unigram: 25446
+ Bigram: 170067
+ Trigram: 71137
+ begin 2016/33/04 07:33:25
+ end 2016/36/04 07:36:16
+
+
+
+Count n-gram 889.4Mb
+ Unigram: 56154
+ Bigram: 834227
+ begin 2016/39/08 16:39:44
+ end 2016/28/08 17:28:47
+
+
+
+Count trigram 889.4Mb
+ Trigram: Done!! 
+ begin 2016/41/08 17:41:29
+ end 2016/42/08 17:42:55
+
+
+
+Count n-gram 889.4Mb
+ Unigram: 56154
+ Bigram: 44802
+ begin 2016/02/08 18:02:05
+ end 2016/08/08 18:08:23
+
+Count trigram 889.4Mb
+ Trigram: Done!! 
+ begin 2016/08/08 18:08:28
+ end 2016/10/08 18:10:29
+
+
+
+Count n-gram from tokenized corpus: 976.6Mb
+ Unigram: 6002
+ Bigram: 148491
+ begin 2016/15/13 18:15:38
+ end 2016/21/13 18:21:01
+
+Count trigram 976.6Mb
+ Trigram: Done!! 
+ begin 2016/21/13 18:21:49
+ end 2016/24/13 18:24:04
+
+
+
+Get candidates from non-tokenized corpus: 
+size in MB: 3.5
+begin: 2016/37/14 19:37:21
+end: 2016/54/14 19:54:29
+
+Line split 101.8Mb
+ begin 2016/32/09 13:32:53
+ end 2016/33/09 13:33:28
+
+Line split 51.2Mb
+ begin 2016/34/09 13:34:55
+ end 2016/35/09 13:35:13
+
+
+
+History had wrote completely!
+
+Count n-gram from tokenized corpus: 147.4Mb
+ Unigram: 20447
+ Bigram: 17497
+ begin 2016/35/09 13:35:51
+ end 2016/36/09 13:36:47
+
+Count trigram 147.4Mb
+ Trigram: Done!! 
+ begin 2016/37/09 13:37:21
+ end 2016/37/09 13:37:35
+
+Get candidates from tokenized corpus: 
+size in MB: 0.7
+begin: 2016/38/09 13:38:36
+end: 2016/38/09 13:38:42
+

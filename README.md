@@ -41,12 +41,3 @@ IV) MỘT LƯU Ý , CÁC THƯ MỤC CẦN TẠO
 		tạo tokenized: chứa các bi-trigram tách từ
 		tạo nontokenized-split: chứa các file tách câu theo dấu câu không có tách từ
 		tạo tokenized-split: chứa các file tách câu theo dấu câu có tách từ
-V) LIÊN HỆ
-------------
-
-	- Lê Hồng Phương <phuonglh@gmail.com>
-	- Nguyễn Thị Minh Huyền <ntmhuyen@gmail.com>
-	
-	Khoa Toán-Cơ-Tin học, Trường Đại học Khoa học Tự nhiên, ĐHQG Hà Nội, Việt Nam.
-	
-	Website: http://www.loria.fr/~lehong/tools/vnTokenizer.php

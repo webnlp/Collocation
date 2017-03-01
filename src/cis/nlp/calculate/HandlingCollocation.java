@@ -71,14 +71,13 @@ public class HandlingCollocation {
 	 * @param pathfile : path of file ouput
 	 */
 	public void restultUnigram(String measure, String pathfile){
-		String s= "";
 		if(measure != null){
 			quickSort(measure);
 		}
 		wf = new WriteFile();
 		wf.open(pathfile);
 		for (ContingencyTable contingencyTable : contingencyTables) {
-			wf.writeHashTable(contingencyTable.toString(measure) + "\n");
+			wf.write(contingencyTable.toString(measure) + "\n");
 		}
 		wf.close();
 		
@@ -87,8 +86,6 @@ public class HandlingCollocation {
 	
 	public void quickSort(String measure){
 		int u = 0, v = contingencyTables.size() - 1;
-		//System.out.println(v);
-		//System.out.println(unigrams.get(v).toString());
 		sort(contingencyTables, u, v, measure);
 	}
 	public void sort(ArrayList<ContingencyTable> unis, int u, int v,String measure){

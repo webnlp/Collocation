@@ -45,7 +45,7 @@ public class CountUnigram {
 		
 	}
 	
-	public String printHashTable(){
+	public String getUnigramInString(){
 		String res = "";
 		Enumeration<String> e = oneCount.keys();
 		long sum = 0;
@@ -64,12 +64,11 @@ public class CountUnigram {
 		return n + "\n"  + (sum / n) + "\n" +res;
 	}
 	
-	public void printOneWordTxt(String fileOut){
+	public void writeUnigramToFile(String fileOut){
 		WriteFile write = new WriteFile();
 		write.open(fileOut);
-		write.writeHashTable(printHashTable());
+		write.write(getUnigramInString());
 		write.close();
-		System.out.println("Word.txt OK !");
 	}
 	
 	public void reload(Hashtable<String, Integer> loadUnigram){

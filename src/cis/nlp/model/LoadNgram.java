@@ -75,27 +75,26 @@ public class LoadNgram {
 		int i = BEGIN;
 		int sizOfList = list.size();
 		int numberOfBigram = 0;
-		int average = Integer.parseInt(list.get(1));
 		while(i < sizOfList){
 			String[] bi = list.get(i).split(" ");
-			if(Integer.parseInt(bi[2]) < 4 * average){
-				if(biHashTable.get(bi[0]) == null){
-					Hashtable<String, Integer> second = new Hashtable<>();
-					second.put(bi[1], Integer.parseInt(bi[2]));
-					biHashTable.put(bi[0], second);
-				} else {
-					biHashTable.get(bi[0]).put(bi[1], Integer.parseInt(bi[2]));
-				}
-				numberOfBigram ++;
-				totalFrequencyBigram += Integer.parseInt(bi[2]);
-				if(reverseBiHashTable.get(bi[1]) == null){
-					Hashtable<String, Integer> second = new Hashtable<>();
-					second.put(bi[0], Integer.parseInt(bi[2]));
-					reverseBiHashTable.put(bi[1], second);
-				} else {
-					reverseBiHashTable.get(bi[1]).put(bi[0], Integer.parseInt(bi[2]));
-				}
+			
+			if(biHashTable.get(bi[0]) == null){
+				Hashtable<String, Integer> second = new Hashtable<>();
+				second.put(bi[1], Integer.parseInt(bi[2]));
+				biHashTable.put(bi[0], second);
+			} else {
+				biHashTable.get(bi[0]).put(bi[1], Integer.parseInt(bi[2]));
 			}
+			numberOfBigram ++;
+			totalFrequencyBigram += Integer.parseInt(bi[2]);
+			if(reverseBiHashTable.get(bi[1]) == null){
+				Hashtable<String, Integer> second = new Hashtable<>();
+				second.put(bi[0], Integer.parseInt(bi[2]));
+				reverseBiHashTable.put(bi[1], second);
+			} else {
+				reverseBiHashTable.get(bi[1]).put(bi[0], Integer.parseInt(bi[2]));
+			}
+			
 			i++;
 		}
 		
@@ -119,39 +118,38 @@ public class LoadNgram {
 		int i = BEGIN;
 		int sizOfList = list.size();
 		int numberOfBigram = 0;
-		int average = Integer.parseInt(list.get(1));
 		while(i < sizOfList){
 			String[] tri = list.get(i).split(" ");
-			if(Integer.parseInt(tri[3]) < 4 * average){
-				if(triHashTable.get(tri[0]) == null){
-					Hashtable<String, Integer> third = new Hashtable<>();
-					third.put(tri[2], Integer.parseInt(tri[3]));
-					Hashtable<String, Hashtable<String, Integer>> second = new Hashtable<>();
-					second.put(tri[1], third);
-					triHashTable.put(tri[0], second);
-				} else if(triHashTable.get(tri[0]).get(tri[1]) == null){
-					Hashtable<String, Integer> third = new Hashtable<>();
-					third.put(tri[2], Integer.parseInt(tri[3]));
-					triHashTable.get(tri[0]).put(tri[1], third);
-				} else {
-					triHashTable.get(tri[0]).get(tri[1]).put(tri[2], Integer.parseInt(tri[3]));
-				}
-				numberOfBigram ++;
-				totalFrequencyTrigram += Integer.parseInt(tri[3]);
-				if(reverseTriHashTable.get(tri[1]) == null){
-					Hashtable<String, Integer> third = new Hashtable<>();
-					third.put(tri[0], Integer.parseInt(tri[3]));
-					Hashtable<String, Hashtable<String, Integer>> second = new Hashtable<>();
-					second.put(tri[2], third);
-					reverseTriHashTable.put(tri[1], second);
-				} else if(reverseTriHashTable.get(tri[1]).get(tri[2]) == null){
-					Hashtable<String, Integer> third = new Hashtable<>();
-					third.put(tri[0], Integer.parseInt(tri[3]));
-					reverseTriHashTable.get(tri[1]).put(tri[2], third);
-				} else {
-					reverseTriHashTable.get(tri[1]).get(tri[2]).put(tri[0], Integer.parseInt(tri[3]));
-				}
+			
+			if(triHashTable.get(tri[0]) == null){
+				Hashtable<String, Integer> third = new Hashtable<>();
+				third.put(tri[2], Integer.parseInt(tri[3]));
+				Hashtable<String, Hashtable<String, Integer>> second = new Hashtable<>();
+				second.put(tri[1], third);
+				triHashTable.put(tri[0], second);
+			} else if(triHashTable.get(tri[0]).get(tri[1]) == null){
+				Hashtable<String, Integer> third = new Hashtable<>();
+				third.put(tri[2], Integer.parseInt(tri[3]));
+				triHashTable.get(tri[0]).put(tri[1], third);
+			} else {
+				triHashTable.get(tri[0]).get(tri[1]).put(tri[2], Integer.parseInt(tri[3]));
 			}
+			numberOfBigram ++;
+			totalFrequencyTrigram += Integer.parseInt(tri[3]);
+			if(reverseTriHashTable.get(tri[1]) == null){
+				Hashtable<String, Integer> third = new Hashtable<>();
+				third.put(tri[0], Integer.parseInt(tri[3]));
+				Hashtable<String, Hashtable<String, Integer>> second = new Hashtable<>();
+				second.put(tri[2], third);
+				reverseTriHashTable.put(tri[1], second);
+			} else if(reverseTriHashTable.get(tri[1]).get(tri[2]) == null){
+				Hashtable<String, Integer> third = new Hashtable<>();
+				third.put(tri[0], Integer.parseInt(tri[3]));
+				reverseTriHashTable.get(tri[1]).put(tri[2], third);
+			} else {
+				reverseTriHashTable.get(tri[1]).get(tri[2]).put(tri[0], Integer.parseInt(tri[3]));
+			}
+			
 			
 			i++;
 		}
@@ -180,12 +178,6 @@ public class LoadNgram {
 		LoadNgram ngram = new LoadNgram();
 		ngram.setType(true);
 		ngram.loadTrigram();
-		System.out.println(ngram.getReverseTrigram().printTrigram());
-//		CountUnigram newUni = ngram.loadUnigram();
-//		System.out.println(newUni.getN());
-//		System.out.println(newUni.getOneCount().get("như_xuân")); Done!!
-//		CountBigram newBi = ngram.loadBigram();
-//		System.out.println(newBi.getN());
-//		System.out.println(newBi.getBigram().get("chạy_chữa").get("bệnh")); Done!
+		System.out.println(ngram.getReverseTrigram().getTrigramInString());
 	}
 }

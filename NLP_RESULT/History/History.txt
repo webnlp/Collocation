@@ -147,3 +147,20 @@ size in MB: 0.7
 begin: 2016/38/09 13:38:36
 end: 2016/38/09 13:38:42
 
+Count n-gram from tokenized corpus: 567.6Mb
+ Unigram: 33206
+ Bigram: 41675
+ begin 2017/52/01 13:52:29
+ end 2017/57/01 13:57:47
+
+
+
+History had wrote completely!
+
+Count trigram 567.6Mb
+ Trigram: Done!! 
+ begin 2017/58/01 13:58:22
+ end 2017/59/01 13:59:45
+
+
+

@@ -56,7 +56,7 @@ public class CountBigram{
 		}
 	}
 	
-	public String printCountBigram(){
+	public String getBigramInString(){
 		
 		String res = "";
 		Enumeration<String> e = bigram.keys();
@@ -86,7 +86,7 @@ public class CountBigram{
 		return n + "\n" + (sum / n) + "\n" + res;
 	}
 	
-	public void printBigramTxt(CountUnigram one,String fileOutbigram){
+	public void writeBigramToFile(CountUnigram one,String fileOutbigram){
 		write = new WriteFile();
 		write.open(fileOutbigram);
 		String res = n+"\n";
@@ -106,13 +106,12 @@ public class CountBigram{
 				if(fB == null){
 					fB = 0;
 				}
-				resValue +=temp +" " + tempValue + "," + val +","+ fA + ","+ fB +"\n";
+				resValue += temp +" " + tempValue + "," + val +","+ fA + ","+ fB +"\n";
 			}
 			res += resValue;
 		}
-		write.writeHashTable(res);
+		write.write(res);
 		write.close();
-		System.out.println("Bigram.txt OK");
 	}
 	
 	public void loadBigram(Hashtable<String, Hashtable<String, Integer>> loadBigram){

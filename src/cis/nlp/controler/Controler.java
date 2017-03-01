@@ -9,29 +9,22 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.swing.Action;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import cis.nlp.calculate.Candidate;
-import cis.nlp.count.CountTriGram;
-import cis.nlp.count.CountUnigram;
 import cis.nlp.io.WriteFile;
 import cis.nlp.model.AnalyzeCandsCount;
 import cis.nlp.model.Collocations;
-import cis.nlp.model.CountNgram;
 import cis.nlp.model.LineSplit;
-import cis.nlp.model.LoadNgram;
 import cis.nlp.model.VNTokenizer;
 import cis.nlp.model.WriteHistory;
 import cis.nlp.view.MainView;
-import cis.nlp.view.SelectFolderCount;
 import cis.nlp.view.ViewCollocation;
 
 public class Controler {
 	private VNTokenizer tokenize;
 	private LineSplit split;
-	private CountNgram count;
 	private WriteHistory history;
 	private MainView mainView;
 	private DateFormat dateFormat;
@@ -43,8 +36,6 @@ public class Controler {
 		tokenize = new VNTokenizer();
 		
 		split = new LineSplit();
-		
-		count = new CountNgram();
 		
 		history = new WriteHistory();
 		
@@ -105,6 +96,7 @@ public class Controler {
 	}
 	class WordTokenize implements ActionListener{
 
+		@SuppressWarnings("static-access")
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String folderRawPath = mainView.getFolderRaw().getText();
@@ -136,6 +128,7 @@ public class Controler {
 	}
 	class Count implements ActionListener {
 
+		@SuppressWarnings("unused")
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			ControlerFolderCountSelected controlerFolderCountSelected = new ControlerFolderCountSelected();
@@ -145,6 +138,7 @@ public class Controler {
 	}
 	class GetCandidates implements ActionListener {
 
+		@SuppressWarnings("static-access")
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			AnalyzeCandsCount candsCount;
@@ -221,6 +215,7 @@ public class Controler {
 	}
 	class WriteCurrentHistory implements ActionListener {
 
+		@SuppressWarnings("static-access")
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub

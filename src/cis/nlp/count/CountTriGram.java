@@ -51,7 +51,7 @@ public class CountTriGram {
 		}
 	}
 	
-	public String printTrigram(){
+	public String getTrigramInString(){
 		String res ="";
 		Enumeration<String> firstKeys = trigram.keys();
 		long sum = 0;
@@ -83,7 +83,7 @@ public class CountTriGram {
 		return n +"\n" + sum / n + "\n" + res;
 	}
 	
-	public void printTxt(String pathfile, CountBigram bigram){
+	public void writeTrigramToFile(String pathfile, CountBigram bigram){
 		write = new WriteFile();
 		write.open(pathfile);
 		String res =n+ "\n";
@@ -104,7 +104,7 @@ public class CountTriGram {
 				}
 			}
 		}
-		write.writeHashTable(res);
+		write.write(res);
 		write.close();
 	}
 	public void setN(int numberOfBigram) {

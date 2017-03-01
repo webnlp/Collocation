@@ -72,7 +72,7 @@ public class TopCollocation {
 		while(enumeration.hasMoreElements()){
 			String key = enumeration.nextElement();
 			if(top.get(key) == 5){
-				wf.writeHashTable(key + "\n");
+				wf.write(key + "\n");
 			}
 		}
 		wf.close();

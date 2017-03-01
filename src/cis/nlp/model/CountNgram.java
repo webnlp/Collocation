@@ -1,10 +1,6 @@
 package cis.nlp.model;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Hashtable;
 
 import cis.nlp.count.CheckWord;
@@ -127,7 +123,7 @@ public class CountNgram {
 		WriteFile wf = new WriteFile();
 		
 		wf.open(outputUnigram);
-		wf.writeHashTable(one.printHashTable());
+		wf.write(one.getUnigramInString());
 		wf.close();
 		System.out.println("Unigram: complete!");
 	
@@ -137,16 +133,9 @@ public class CountNgram {
 		countBiGram(listpath, loadUnigram);
 		
 		wf.open(outputBigram);
-		wf.writeHashTable(bigram.printCountBigram());
+		wf.write(bigram.getBigramInString());
 		wf.close();
 		System.out.println("Bigram: complete!");
-	
-//		countTrigram(listpath);
-//		wf.open(TRIGRAM);
-//		wf.writeHashTable(trigram.printTrigram());
-//		wf.close();
-//		System.out.println("Trigram: complete");
-
 	}
 	
 	public void processTrigram(CountUnigram loadUnigram){
@@ -154,16 +143,8 @@ public class CountNgram {
 		WriteFile wf = new WriteFile();
 		countTrigram(listpath, loadUnigram);
 		wf.open(outputTrigram);
-		wf.writeHashTable(trigram.printTrigram());
+		wf.write(trigram.getTrigramInString());
 		wf.close();
 		System.out.println("Trigram: complete");
 	}
-//	public static void main(String[] args) {
-//		CountNgram ngram = new CountNgram();
-//		ArrayList<String> listpath = DirectoryContents.getFileTxt(FileInput);
-//		LoadNgram load  = new LoadNgram();
-//		CountUnigram uni = load.loadUnigram();
-//		ngram.countTrigram(listpath, uni);
-//		System.out.println(trigram.getNumberTrigrams());
-//	}
 }

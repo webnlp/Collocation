@@ -67,7 +67,7 @@ public class WriteFile {
 		}
 		
 	}
-	public void writeHashTable(String string){
+	public void write(String string){
 		try {
 			bw.write(string);
 		} catch (IOException e) {

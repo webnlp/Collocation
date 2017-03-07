@@ -3,7 +3,6 @@ package cis.nlp.controler;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,15 +16,11 @@ import cis.nlp.io.WriteFile;
 import cis.nlp.model.AnalyzeCandsCount;
 import cis.nlp.model.Collocations;
 import cis.nlp.model.LineSplit;
-import cis.nlp.model.VNTokenizer;
-import cis.nlp.model.WriteHistory;
 import cis.nlp.view.MainView;
 import cis.nlp.view.ViewCollocation;
 
 public class Controler {
-	private VNTokenizer tokenize;
 	private LineSplit split;
-	private WriteHistory history;
 	private MainView mainView;
 	private DateFormat dateFormat;
 	private Collocations collocations;
@@ -34,20 +29,14 @@ public class Controler {
 		mainView = new MainView();
 		mainView.setVisible(true);
 		
-		tokenize = new VNTokenizer();
 		
 		split = new LineSplit();
 		
-		history = new WriteHistory();
 		
-		GetFolderRaw folderRaw = new GetFolderRaw();
-		mainView.addActionFolderRaw(folderRaw);
 		
 		GetFolderWordTokenized folderWordTokenized = new GetFolderWordTokenized();
 		mainView.addActionTokenized(folderWordTokenized);
 		
-		WordTokenize tokenize = new WordTokenize();
-		mainView.addActionTokenize(tokenize);
 		
 		Preprocess pp = new Preprocess();
 		mainView.addActionPreprocess(pp);
@@ -55,8 +44,6 @@ public class Controler {
 		Count count = new Count();
 		mainView.addActionCountNgram(count);
 		
-		WriteCurrentHistory currentHistory = new WriteCurrentHistory();
-		mainView.addActionWriteHistory(currentHistory);
 		
 		GetCandidates getCandidates = new GetCandidates();
 		mainView.addActionGetCandsCount(getCandidates);
@@ -64,22 +51,7 @@ public class Controler {
 		ShowCollocations showCollocations = new ShowCollocations();
 		mainView.addActionCollocation(showCollocations);
 	}
-	class GetFolderRaw implements ActionListener{
-
-		@SuppressWarnings("static-access")
-		public void actionPerformed(ActionEvent e) {
-			String path = "";
-			JFileChooser choose = new JFileChooser();
-			choose.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			int k = choose.showOpenDialog(null);
-			
-			if(k == choose.APPROVE_OPTION){
-				path = choose.getCurrentDirectory().getPath();
-				mainView.getFolderRaw().setText(path);
-			}
-		}
-		
-	}
+	
 	
 	class GetFolderWordTokenized implements ActionListener{
 
@@ -95,21 +67,7 @@ public class Controler {
 		}
 		
 	}
-	class WordTokenize implements ActionListener{
-
-		@SuppressWarnings("static-access")
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String folderRawPath = mainView.getFolderRaw().getText();
-			String begin = getTime();
-			double sizeMbytes = Math.round(sizeInMb(folderRawPath));
-			tokenize.tokenize(folderRawPath);
-			String end = getTime();
-			
-			mainView.getTextArea().append("Tokenize " + sizeMbytes + "Mb" + "\n begin " + begin + "\n end " + end +"\n\n"); 
-		}
-		
-	}
+	
 	class Preprocess implements ActionListener {
 
 		@Override
@@ -204,7 +162,6 @@ public class Controler {
 				while(!fileToShow.equals("cands-bi") && !fileToShow.equals("cands-tri")){
 					fileToShow = JOptionPane.showInputDialog("Do you want to watch cands-bi or cands-tri collocation? \n"
 							+ "cands-bi: Candidates of bigram ; cands-tri: Candidates of trigram");
-					System.out.println(fileToShow);
 				}
 				viewCollocation.initModel(collocations.showCollocation(fileToShow));
 				viewCollocation.setVisible(true);
@@ -214,23 +171,7 @@ public class Controler {
 		}
 		
 	}
-	class WriteCurrentHistory implements ActionListener {
-
-		@SuppressWarnings("static-access")
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			String currentHistory = mainView.getTextArea().getText();
-			try {
-				history.writeHistory(currentHistory + "\n");
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			mainView.getTextArea().setText("History had wrote completely!\n\n");
-		}
-		
-	}
+	
 	public double sizeInMb(String folder){
 		File file = new File(folder);
 		System.out.println(folder);

@@ -80,8 +80,6 @@ public class HandlingCollocation {
 			wf.write(contingencyTable.toString(measure) + "\n");
 		}
 		wf.close();
-		
-		System.out.println(pathfile+" OK !");
 	}
 	
 	public void quickSort(String measure){

@@ -61,7 +61,6 @@ public class CountNgram {
 				}
 			}
 		}
-		System.out.println(one.getOneCount().get("sâm"));
 		
 	}
 

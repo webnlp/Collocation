@@ -41,7 +41,6 @@ public class CountTriGram {
 			int count = trigram.get(w1).get(w2).get(w3) + 1;
 			trigram.get(w1).get(w2).put(w3, count);
 		}
-		System.out.println(n);
 		
 	}
 	public void setHashtableTrigram(String[] list){

@@ -7,12 +7,12 @@ import cis.nlp.io.ReadFile;
 
 public class Collocations {
 	private HandlingCollocation collocation;
-	private String inputFolder = "NLP_RESULT/cands-nontokenized/";
-	private String outputFolder = "NLP_RESULT/collocation-nontokenized/";
+	private String inputFolder = "/home/zic/Desktop/NLP_RESULT/cands-nontokenized/";
+	private String outputFolder = "/home/zic/Desktop/NLP_RESULT/collocation-nontokenized/";
 	public Collocations(int isTokenized) {
 		if(isTokenized == 0){
-			inputFolder = "NLP_RESULT/cands-tokenized/";
-			outputFolder = "NLP_RESULT/collocation-tokenized/";
+			inputFolder = "/home/zic/Desktop/NLP_RESULT/cands-tokenized/";
+			outputFolder = "/home/zic/Desktop/NLP_RESULT/collocation-tokenized/";
 		}
 	}
 	

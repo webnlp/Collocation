@@ -6,7 +6,7 @@ import cis.nlp.io.DirectoryContents;
 import vn.hus.nlp.tokenizer.VietTokenizer;
 
 public class VNTokenizer {
-	private static final String Result = "NLP_RESULT/vntokenizer";
+	private static final String Result = "/home/zic/Desktop/NLP_RESULT/vntokenizer";
 	
 	private void vntokenizer(ArrayList<String> listPathtxt){
 		int i = getEndNumberFile();

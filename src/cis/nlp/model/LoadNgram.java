@@ -21,7 +21,7 @@ public class LoadNgram {
 	private ReadFile rf;
 	private long totalFrequencyBigram = 0;
 	private long totalFrequencyTrigram = 0;
-	
+	private String target = "/home/zic/Desktop/NLP_RESULT/";
 	public LoadNgram() {
 		unigram = new CountUnigram();
 		bigram = new CountBigram();
@@ -30,15 +30,14 @@ public class LoadNgram {
 		reverseTrigram = new CountTriGram();
 	}
 	public void setType(boolean isTokenized){
-		String output = "NLP_RESULT/";
 		if(isTokenized){
-			output += "tokenized/";
+			target += "tokenized/";
 		} else {
-			output += "nontokenized/";
+			target += "nontokenized/";
 		}
-		outputUnigram = output + "unigram.txt";
-		outputBigram = output + "bigram.txt";
-		outputTrigram = output + "trigram.txt";
+		outputUnigram = target + "unigram.txt";
+		outputBigram = target + "bigram.txt";
+		outputTrigram = target + "trigram.txt";
 	}
 	public CountUnigram loadUnigram(){
 		rf = new ReadFile();

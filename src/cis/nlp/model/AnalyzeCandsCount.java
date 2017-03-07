@@ -19,8 +19,7 @@ public class AnalyzeCandsCount {
 	public ArrayList<Candidate> getAnalyzeBigramCount(){
 		ArrayList<Candidate> cands = new ArrayList<>();
 		CountBigram bigram = load.loadBigram();
-//		wf = new WriteFile();
-//		wf.open("NLP_RESULT/AnalyzeCandsCount/BigramCount");
+		
 		Hashtable<String, Hashtable<String, Integer>> bi = bigram.getBigram();
 		Enumeration<String> first = bi.keys();
 		int end = 0;
@@ -106,20 +105,9 @@ public class AnalyzeCandsCount {
 			while (third.hasMoreElements()) {
 				String thirdWord = third.nextElement();
 				numberOfFirstWord += reverseTrigram.get(tokens[1]).get(tokens[2]).get(thirdWord);
-//				System.out.println(tokens[1] + " " + tokens[2] + " " + tokens[0] + 
-//						reverseTrigram.get(tokens[1]).get(tokens[2]).get(thirdWord));
-//				System.out.println(firstWord);
 			}
 			candidate.setFreB(numberOfFirstWord - reverseTrigram.get(tokens[1]).get(tokens[2]).get(tokens[0]));
 		}
 		return cands;
 	}
-	
-//	public static void main(String[] args) {
-//		AnalyzeCandsCount analyzeCandsCount = new AnalyzeCandsCount(true);
-//		ArrayList<Candidate> cands = analyzeCandsCount.getAnalyzeBigramCount();
-//		System.out.println(analyzeCandsCount.getLoadNgram().getTotalFrequencyBigram());
-//		ArrayList<Candidate> cands = analyzeCandsCount.getAnalyzeTrigramCount();
-//		System.out.println(cands.get(0).toString());
-//	}
 }

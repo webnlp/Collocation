@@ -29,6 +29,7 @@ public class Controler {
 	private MainView mainView;
 	private DateFormat dateFormat;
 	private Collocations collocations;
+	private String target = "/home/zic/Desktop/NLP_RESULT/";
 	public Controler() {
 		mainView = new MainView();
 		mainView.setVisible(true);
@@ -150,16 +151,16 @@ public class Controler {
 				ArrayList<Candidate> candsTrigram = candsCount.getAnalyzeTrigramCount();
 				System.out.println(candsBigram.get(0));
 				WriteFile wf = new WriteFile();
-				wf.open("NLP_RESULT/cands-tokenized/cands-bi.txt");
+				wf.open(target + "cands-tokenized/cands-bi.txt");
 				wf.writeCandidates(candsBigram, candsCount.getLoadNgram().getTotalFrequencyBigram());
 				wf.close();
 				
-				wf.open("NLP_RESULT/cands-tokenized/cands-tri.txt");
+				wf.open(target + "cands-tokenized/cands-tri.txt");
 				wf.writeCandidates(candsTrigram, candsCount.getLoadNgram().getTotalFrequencyTrigram());
 				wf.close();
 				String end = getTime();
 				mainView.getTextArea().append("Get candidates from tokenized corpus: \n"
-						+ "size in MB: " + sizeInMb("NLP_RESULT/tokenized") + "\n"
+						+ "size in MB: " + sizeInMb(target + "tokenized") + "\n"
 						+ "begin: " + begin + "\n" + "end: " + end);
 			} else if(isTokenized == 1){
 				candsCount = new AnalyzeCandsCount(false);
@@ -167,16 +168,16 @@ public class Controler {
 				ArrayList<Candidate> candsTrigram = candsCount.getAnalyzeTrigramCount();
 				
 				WriteFile wf = new WriteFile();
-				wf.open("NLP_RESULT/cands-nontokenized/cands-bi.txt");
+				wf.open(target + "cands-nontokenized/cands-bi.txt");
 				wf.writeCandidates(candsBigram, candsCount.getLoadNgram().getTotalFrequencyBigram());
 				wf.close();
 				
-				wf.open("NLP_RESULT/cands-nontokenized/cands-tri.txt");
+				wf.open(target + "cands-nontokenized/cands-tri.txt");
 				wf.writeCandidates(candsTrigram, candsCount.getLoadNgram().getTotalFrequencyTrigram());
 				wf.close();
 				String end = getTime();
 				mainView.getTextArea().append("Get candidates from non-tokenized corpus: \n"
-						+ "size in MB: " + sizeInMb("NLP_RESULT/nontokenized") + "\n"
+						+ "size in MB: " + sizeInMb(target + "nontokenized") + "\n"
 						+ "begin: " + begin + "\n" + "end: " + end);
 				
 			} else {

@@ -10,11 +10,7 @@ import cis.nlp.io.WriteFile;
 public class TopCollocation {
 	private Hashtable<String, Integer> top;
 	private ArrayList<ArrayList<String>> list;
-	//list[0] = listDice;
-	//list[1] = listMle;
-	//list[2] = listPmi;
-	//list[3] = listLl;
-	//list[4] = listTscore
+	private String target = "/home/zic/Desktop/NLP_RESULT/";
 	public TopCollocation(String ngram, String type) {
 		top = new Hashtable<>();
 		list = new ArrayList<>();
@@ -24,23 +20,23 @@ public class TopCollocation {
 	
 	public void getCollocation(String ngram, String type){
 		ReadFile rf = new ReadFile();
-		rf.open("NLP_RESULT/collocation-" + type + "/cands-" + ngram +"-dice.txt");
+		rf.open(target + "collocation-" + type + "/cands-" + ngram +"-dice.txt");
 		list.add(rf.read());
 		rf.close();
 		
-		rf.open("NLP_RESULT/collocation-" + type + "/cands-" + ngram +"-mle.txt");
+		rf.open(target + "collocation-" + type + "/cands-" + ngram +"-mle.txt");
 		list.add(rf.read());
 		rf.close();
 		
-		rf.open("NLP_RESULT/collocation-" + type + "/cands-" + ngram +"-pmi.txt");
+		rf.open(target + "collocation-" + type + "/cands-" + ngram +"-pmi.txt");
 		list.add(rf.read());
 		rf.close();
 		
-		rf.open("NLP_RESULT/collocation-" + type + "/cands-" + ngram +"-ll.txt");
+		rf.open(target + "collocation-" + type + "/cands-" + ngram +"-ll.txt");
 		list.add(rf.read());
 		rf.close();
 		
-		rf.open("NLP_RESULT/collocation-" + type + "/cands-" + ngram +"-tscore.txt");
+		rf.open(target + "collocation-" + type + "/cands-" + ngram +"-tscore.txt");
 		list.add(rf.read());
 		rf.close();
 	}
@@ -66,7 +62,7 @@ public class TopCollocation {
 	
 	public void printResult(){
 		WriteFile wf = new WriteFile();
-		wf.open("NLP_RESULT/top.txt");
+		wf.open(target + "top.txt");
 		Enumeration<String> enumeration = top.keys();
 		
 		while(enumeration.hasMoreElements()){

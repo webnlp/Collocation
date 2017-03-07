@@ -23,6 +23,7 @@ public class CountNgram {
 	private static StopWord stopWords;
 	private static CheckWord check;
 	private boolean isTokenized;
+	private String target = "/home/zic/Desktop/NLP_RESULT/";
 	public CountNgram() {
 		check = new CheckWord();
 		stopWords = new StopWord();
@@ -34,15 +35,14 @@ public class CountNgram {
 	
 	public void setType(boolean isTokenized){
 		this.isTokenized = isTokenized;
-		String output = "NLP_RESULT/";
 		if(isTokenized){
-			output += "tokenized/";
+			target += "tokenized/";
 		} else {
-			output += "nontokenized/";
+			target += "nontokenized/";
 		}
-		outputUnigram = output + "unigram.txt";
-		outputBigram = output + "bigram.txt";
-		outputTrigram = output + "trigram.txt";
+		outputUnigram = target + "unigram.txt";
+		outputBigram = target + "bigram.txt";
+		outputTrigram = target + "trigram.txt";
 	}
 	public void countUnigram(ArrayList<String> listpath) {
 		one = new CountUnigram();

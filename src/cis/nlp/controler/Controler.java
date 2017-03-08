@@ -107,7 +107,7 @@ public class Controler {
 				candsCount = new AnalyzeCandsCount(true);
 				ArrayList<Candidate> candsBigram = candsCount.getAnalyzeBigramCount();
 				ArrayList<Candidate> candsTrigram = candsCount.getAnalyzeTrigramCount();
-				System.out.println(candsBigram.get(0));
+				candsCount.removeBigramBelongTrigram(candsBigram, candsTrigram);
 				WriteFile wf = new WriteFile();
 				wf.open(target + "cands-tokenized/cands-bi.txt");
 				wf.writeCandidates(candsBigram, candsCount.getLoadNgram().getTotalFrequencyBigram());

@@ -161,20 +161,30 @@ public class LoadNgram {
 		return trigram;
 	}
 	
-	public CountUnigram loadTrigramAsUnigram(){
-		CountUnigram triAsUni = new CountUnigram();
-		ReadFile rf = new ReadFile();
-		rf.open(outputTrigram);
-		ArrayList<String> list = rf.read();
-		Hashtable<String, Integer> hashTriAsUni = new Hashtable<>();
-		for(int i = BEGIN; i < list.size(); i ++){
-			String[] elems = list.get(i).split(" ");
-			hashTriAsUni.put(elems[0] + " " + elems[1] + " " + elems[2], Integer.parseInt(elems[3]));
+	public CountUnigram loadNgramAsUnigram(String input){
+		String ngramPath = "";
+		if(input.compareTo("bigram") == 0){
+			ngramPath = outputBigram;
+		} else if(input.compareTo("trigram") == 0){
+			ngramPath = outputTrigram;
 		}
-		triAsUni.setOneCount(hashTriAsUni);
-		triAsUni.setN(Integer.parseInt(list.get(0)));
-		return triAsUni;
+		CountUnigram ngramAsUni = new CountUnigram();
+		ReadFile rf = new ReadFile();
+		rf.open(ngramPath);
+		ArrayList<String> list = rf.read();
+		Hashtable<String, Integer> ngramTriAsUni = new Hashtable<>();
+		for(int i = BEGIN; i < list.size(); i ++){
+			String ngram = list.get(i);
+			String[] elems = ngram.split(" ");
+			String freq = elems[elems.length - 1];
+			String tokens = ngram.substring(0, ngram.length() - freq.length() -1);
+			ngramTriAsUni.put(tokens, Integer.valueOf(freq));
+		}
+		ngramAsUni.setOneCount(ngramTriAsUni);
+		ngramAsUni.setN(Integer.parseInt(list.get(0)));
+		return ngramAsUni;
 	}
+	
 	public CountBigram getReverseBigram(){
 		return reverseBigram;
 	}

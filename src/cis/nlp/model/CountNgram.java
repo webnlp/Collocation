@@ -113,7 +113,7 @@ public class CountNgram {
 		}
 	}
 	
-	public void count4gram(ArrayList<String> listpath, CountUnigram loadTriAsUnigram, CountUnigram loadUnigram){
+	public void count4gramV3_1(ArrayList<String> listpath, CountUnigram loadTriAsUnigram, CountUnigram loadUnigram){
 		fourgram = new Count4gram();
 		Hashtable<String, Integer> hasTriAsUni = loadTriAsUnigram.getOneCount();
 		Hashtable<String, Integer> hasUni = loadUnigram.getOneCount();
@@ -130,6 +130,28 @@ public class CountNgram {
 					i ++;
 					if(hasTriAsUni.get(tri) != null && hasUni.get(uni) != null){
 						fourgram.add(tri, uni);
+					}
+				}
+			}
+		}
+	}
+	public void count4gramV2_2(ArrayList<String> listpath, CountUnigram loadBiAsUnigram){
+		fourgram = new Count4gram();
+		Hashtable<String, Integer> hashBiAsUni = loadBiAsUnigram.getOneCount();
+		
+		for (String apath : listpath) {
+			ReadFile rf = new ReadFile();
+			rf.open(apath);
+			ArrayList<String> lines = rf.read();
+			for (String aline : lines) {
+				String[] tokens = aline.split(" ");
+				int i = 0;
+				while(i + 3 < tokens.length){
+					String bi1 = tokens[i + 0] + " " + tokens[i + 1];
+					String bi2 = tokens[i + 2] + " " + tokens[i + 3];
+					i ++;
+					if(hashBiAsUni.get(bi1) != null && hashBiAsUni.get(bi2) != null){
+						fourgram.add(bi1, bi2);
 					}
 				}
 			}
@@ -173,10 +195,20 @@ public class CountNgram {
 		System.out.println("Trigram: complete!");
 	}
 	
-	public void process4gram(CountUnigram loadTriAsUnigram, CountUnigram loadUnigram){
+	public void process4gramV3_1(CountUnigram loadTriAsUnigram, CountUnigram loadUnigram){
 		ArrayList<String> listpath = DirectoryContents.getFileTxt(fileInput);
 		WriteFile wf = new WriteFile();
-		count4gram(listpath, loadTriAsUnigram, loadUnigram);
+		count4gramV3_1(listpath, loadTriAsUnigram, loadUnigram);
+		wf.open(output4gram);
+		wf.write(fourgram.get4gramInString());
+		wf.close();
+		System.out.println("Fourgram: complete!");
+	}
+	
+	public void process4gramV2_2(CountUnigram loadBiAsUnigram){
+		ArrayList<String> listpath = DirectoryContents.getFileTxt(fileInput);
+		WriteFile wf = new WriteFile();
+		count4gramV2_2(listpath, loadBiAsUnigram);
 		wf.open(output4gram);
 		wf.write(fourgram.get4gramInString());
 		wf.close();

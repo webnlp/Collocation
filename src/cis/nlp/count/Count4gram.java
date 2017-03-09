@@ -5,22 +5,20 @@ import java.util.Hashtable;
 
 import cis.nlp.io.WriteFile;
 
-
-public class CountBigram{
-
+public class Count4gram {
 	private static final Integer COUNTCUTOFF = 5;
-	private Hashtable<String, Hashtable<String, Integer>> bigram;
-	public Hashtable<String, Hashtable<String, Integer>> getBigram() {
-		return bigram;
+	private Hashtable<String, Hashtable<String, Integer>> fourgram;
+	public Hashtable<String, Hashtable<String, Integer>> get4gram() {
+		return fourgram;
 	}
-	public void setBigram(Hashtable<String, Hashtable<String, Integer>> bigram) {
-		this.bigram = bigram;
+	public void set4gram(Hashtable<String, Hashtable<String, Integer>> fourgram) {
+		this.fourgram = fourgram;
 	}
 
 	private int n;
 	private WriteFile write;
-	public CountBigram() {
-		bigram = new Hashtable<>();
+	public Count4gram() {
+		fourgram = new Hashtable<>();
 		n = 0;
 	}
 	public int getN() {
@@ -33,47 +31,47 @@ public class CountBigram{
 	public void add(String word1, String word2){
 		word1 = word1.toLowerCase();
 		word2 = word2.toLowerCase();
-		if(bigram.get(word1) == null){
+		if(fourgram.get(word1) == null){
 			Hashtable<String, Integer> value = new Hashtable<>();
 			value.put(word2, 1);
-			bigram.put(word1, value);
+			fourgram.put(word1, value);
 			n++;
 		} else {
-			if (bigram.get(word1).get(word2) == null) {
-				bigram.get(word1).put(word2, 1);
+			if (fourgram.get(word1).get(word2) == null) {
+				fourgram.get(word1).put(word2, 1);
 				n++;
 			} else {
 				Hashtable<String, Integer> value = new Hashtable<>();
-				value = bigram.get(word1);
+				value = fourgram.get(word1);
 				value.put(word2, value.get(word2) + 1);
-				bigram.put(word1, value);
+				fourgram.put(word1, value);
 			}
 		}
 	}
 	
-	public String getBigramInString(){
+	public String get4gramInString(){
 		
 		String res = "";
-		Enumeration<String> e = bigram.keys();
+		Enumeration<String> e = fourgram.keys();
 		long sum = 0;
 		while(e.hasMoreElements()){
 			String temp = e.nextElement();
-			Enumeration<String> e2 = bigram.get(temp).keys();
+			Enumeration<String> e2 = fourgram.get(temp).keys();
 			String resValue = "";
 			while(e2.hasMoreElements()){
 				String tempValue = e2.nextElement();
-				Integer val = bigram.get(temp).get(tempValue);
+				Integer val = fourgram.get(temp).get(tempValue);
 				if(val >= COUNTCUTOFF){
 					resValue +=temp +" " + tempValue + " " + val + "\n";
 					sum += val;
 				} else {
-					bigram.get(temp).remove(tempValue);
+					fourgram.get(temp).remove(tempValue);
 					n--;
 				}
 				
 			}
-			if(bigram.get(temp).isEmpty()){
-				bigram.remove(temp);
+			if(fourgram.get(temp).isEmpty()){
+				fourgram.remove(temp);
 			}
 			res += resValue;
 		}
@@ -81,20 +79,20 @@ public class CountBigram{
 		return n + "\n" + (sum / n) + "\n" + res;
 	}
 	
-	public void writeBigramToFile(CountUnigram one,String fileOutbigram){
+	public void write4gramToFile(CountUnigram triAsUni,String fileOut4gram){
 		write = new WriteFile();
-		write.open(fileOutbigram);
+		write.open(fileOut4gram);
 		String res = n+"\n";
-		Enumeration<String> e = bigram.keys();
+		Enumeration<String> e = fourgram.keys();
 		while(e.hasMoreElements()){
 			String temp = e.nextElement();
-			Enumeration<String> e2 = bigram.get(temp).keys();
+			Enumeration<String> e2 = fourgram.get(temp).keys();
 			String resValue = "";
 			while(e2.hasMoreElements()){
 				String tempValue = e2.nextElement();
-				Integer val = bigram.get(temp).get(tempValue);
-				Integer fA = one.getOneCount().get(temp);
-				Integer fB = one.getOneCount().get(tempValue);
+				Integer val = fourgram.get(temp).get(tempValue);
+				Integer fA = triAsUni.getOneCount().get(temp);
+				Integer fB = triAsUni.getOneCount().get(tempValue);
 				if(fA == null){
 					fA = 0;
 				} 
@@ -109,8 +107,7 @@ public class CountBigram{
 		write.close();
 	}
 	
-	public void loadBigram(Hashtable<String, Hashtable<String, Integer>> loadBigram){
-		bigram = loadBigram;
+	public void loadBigram(Hashtable<String, Hashtable<String, Integer>> fourgram){
+		this.fourgram = fourgram;
 	}
-	
 }

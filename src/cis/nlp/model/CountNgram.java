@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import cis.nlp.count.CheckWord;
+import cis.nlp.count.Count4gram;
 import cis.nlp.count.CountBigram;
 import cis.nlp.count.CountTriGram;
 import cis.nlp.count.CountUnigram;
@@ -17,9 +18,11 @@ public class CountNgram {
 	private String outputUnigram;
 	private String outputBigram;
 	private String outputTrigram;
+	private String output4gram;
 	private static CountUnigram one;
 	private static CountBigram bigram;
 	private static CountTriGram trigram;
+	private static Count4gram fourgram;
 	private static StopWord stopWords;
 	private static CheckWord check;
 	private boolean isTokenized;
@@ -43,6 +46,7 @@ public class CountNgram {
 		outputUnigram = target + "unigram.txt";
 		outputBigram = target + "bigram.txt";
 		outputTrigram = target + "trigram.txt";
+		output4gram = target + "fourgram.txt";
 	}
 	public void countUnigram(ArrayList<String> listpath) {
 		one = new CountUnigram();
@@ -108,7 +112,29 @@ public class CountNgram {
 			}
 		}
 	}
-
+	
+	public void count4gram(ArrayList<String> listpath, CountUnigram loadTriAsUnigram, CountUnigram loadUnigram){
+		fourgram = new Count4gram();
+		Hashtable<String, Integer> hasTriAsUni = loadTriAsUnigram.getOneCount();
+		Hashtable<String, Integer> hasUni = loadUnigram.getOneCount();
+		for (String apath : listpath) {
+			ReadFile rf = new ReadFile();
+			rf.open(apath);
+			ArrayList<String> lines = rf.read();
+			for (String aline : lines) {
+				String[] tokens = aline.split(" ");
+				int i = 0;
+				while(i + 3 < tokens.length){
+					String tri = tokens[i + 0] + " " + tokens[i + 1] + " " + tokens[i + 2];
+					String uni = tokens[i + 3];
+					i ++;
+					if(hasTriAsUni.get(tri) != null && hasUni.get(uni) != null){
+						fourgram.add(tri, uni);
+					}
+				}
+			}
+		}
+	}
 	public int[] getCount() {
 		int[] counts = new int[3];
 		counts[0] = one.getN();
@@ -144,6 +170,16 @@ public class CountNgram {
 		wf.open(outputTrigram);
 		wf.write(trigram.getTrigramInString());
 		wf.close();
-		System.out.println("Trigram: complete");
+		System.out.println("Trigram: complete!");
+	}
+	
+	public void process4gram(CountUnigram loadTriAsUnigram, CountUnigram loadUnigram){
+		ArrayList<String> listpath = DirectoryContents.getFileTxt(fileInput);
+		WriteFile wf = new WriteFile();
+		count4gram(listpath, loadTriAsUnigram, loadUnigram);
+		wf.open(output4gram);
+		wf.write(fourgram.get4gramInString());
+		wf.close();
+		System.out.println("Fourgram: complete!");
 	}
 }

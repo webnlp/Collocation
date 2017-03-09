@@ -35,6 +35,9 @@ public class ControlerFolderCountSelected {
 		
 		TriFromFolder triFromFolder = new TriFromFolder();
 		selectFolderCount.addAcitonCountTrigram(triFromFolder);
+		
+		FourFromFolder fourFromFolder = new FourFromFolder();
+		selectFolderCount.addAcitonCount4gram(fourFromFolder);
 	}
 
 	class UniAndBiFromFolder implements ActionListener {
@@ -72,6 +75,27 @@ public class ControlerFolderCountSelected {
 			count.setType(isTokenized);
 			count.setFileInput(path);
 			count.processTrigram(loadUnigram);
+			String end = getTime();
+			MainView.getTextArea().append("Count trigram " + sizeInMbytes + "Mb"
+					+ "\n Trigram: Done!! "
+					+ "\n begin " + begin + "\n end " + end + "\n\n");
+		}
+		
+	}
+	class FourFromFolder implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String begin = getTime();
+			double sizeInMbytes = sizeInMb(path);
+			LoadNgram load = new LoadNgram();
+			boolean isTokenized = selectFolderCount.getTypeOfCorpus();
+			load.setType(isTokenized);
+			CountUnigram loadUnigram = load.loadUnigram();
+			CountUnigram loadTriAsUnigram = load.loadTrigramAsUnigram();
+			count.setType(isTokenized);
+			count.setFileInput(path);
+			count.process4gram(loadTriAsUnigram, loadUnigram);
 			String end = getTime();
 			MainView.getTextArea().append("Count trigram " + sizeInMbytes + "Mb"
 					+ "\n Trigram: Done!! "

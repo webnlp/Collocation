@@ -24,6 +24,7 @@ public class SelectFolderCount extends JDialog {
 	private JTextField textField;
 	private JCheckBox chckbxType;
 	private JButton btnFolder;
+	private JButton btn4gram;
 
 	/**
 	 * Launch the application.
@@ -42,34 +43,34 @@ public class SelectFolderCount extends JDialog {
 	 * Create the dialog.
 	 */
 	public SelectFolderCount() {
-		setBounds(100, 100, 449, 178);
+		setBounds(100, 100, 378, 150);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
 		textField = new JTextField();
-		textField.setBounds(86, 51, 286, 27);
+		textField.setBounds(12, 52, 286, 27);
 		contentPanel.add(textField);
 		textField.setColumns(10);
 		
 		btnFolder = new JButton("Folder");
-		btnFolder.setBounds(86, 14, 86, 25);
+		btnFolder.setBounds(12, 15, 86, 25);
 		contentPanel.add(btnFolder);
 		
 		chckbxType = new JCheckBox("Tokenized");
-		chckbxType.setBounds(195, 15, 140, 25);
+		chckbxType.setBounds(122, 15, 140, 25);
 		contentPanel.add(chckbxType);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				btnU_B = new JButton("Count Uni and Bigram");
+				btnU_B = new JButton("1-2gram");
 				buttonPane.add(btnU_B);
 			}
 			{
-				btnTri = new JButton("Count Trigram");
+				btnTri = new JButton("3-gram");
 				btnTri.setActionCommand("OK");
 				buttonPane.add(btnTri);
 				getRootPane().setDefaultButton(btnTri);
@@ -81,6 +82,10 @@ public class SelectFolderCount extends JDialog {
 						dispose();
 					}
 				});
+				{
+					btn4gram = new JButton("4-gram");
+					buttonPane.add(btn4gram);
+				}
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
@@ -91,6 +96,9 @@ public class SelectFolderCount extends JDialog {
 	}
 	public void addAcitonCountTrigram(ActionListener ac){
 		btnTri.addActionListener(ac);
+	}
+	public void addAcitonCount4gram(ActionListener ac){
+		btn4gram.addActionListener(ac);
 	}
 	public void addActionGetFolder(ActionListener ac){
 		btnFolder.addActionListener(ac);

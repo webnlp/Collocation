@@ -160,6 +160,21 @@ public class LoadNgram {
 		trigram.setTrigram(triHashTable);
 		return trigram;
 	}
+	
+	public CountUnigram loadTrigramAsUnigram(){
+		CountUnigram triAsUni = new CountUnigram();
+		ReadFile rf = new ReadFile();
+		rf.open(outputTrigram);
+		ArrayList<String> list = rf.read();
+		Hashtable<String, Integer> hashTriAsUni = new Hashtable<>();
+		for(int i = BEGIN; i < list.size(); i ++){
+			String[] elems = list.get(i).split(" ");
+			hashTriAsUni.put(elems[0] + " " + elems[1] + " " + elems[2], Integer.parseInt(elems[3]));
+		}
+		triAsUni.setOneCount(hashTriAsUni);
+		triAsUni.setN(Integer.parseInt(list.get(0)));
+		return triAsUni;
+	}
 	public CountBigram getReverseBigram(){
 		return reverseBigram;
 	}

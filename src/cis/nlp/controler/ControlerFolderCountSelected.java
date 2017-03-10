@@ -144,6 +144,7 @@ public class ControlerFolderCountSelected {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			count.resetLoadFile();
 			selectFolderCount.getButtonFolder().setEnabled(true);
 			selectFolderCount.getCheckBoxType().setEnabled(true);
 		}

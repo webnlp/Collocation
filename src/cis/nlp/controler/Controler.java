@@ -25,6 +25,9 @@ public class Controler {
 	private DateFormat dateFormat;
 	private Collocations collocations;
 	private String target = "/home/zic/Desktop/NLP_RESULT/";
+	static boolean isSelectedFolder = false;
+	static boolean isSelectdType = false;
+	static String path = "";
 	public Controler() {
 		mainView = new MainView();
 		mainView.setVisible(true);
@@ -91,7 +94,6 @@ public class Controler {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			ControlerFolderCountSelected controlerFolderCountSelected = new ControlerFolderCountSelected();
-			
 		}
 		
 	}

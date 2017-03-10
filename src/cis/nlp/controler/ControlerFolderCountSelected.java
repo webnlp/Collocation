@@ -19,9 +19,8 @@ public class ControlerFolderCountSelected {
 	private SimpleDateFormat dateFormat;
 	private CountNgram count;
 	private String path;
-
 	public ControlerFolderCountSelected() {
-		selectFolderCount = new SelectFolderCount();
+		selectFolderCount = new SelectFolderCount(Controler.isSelectedFolder, Controler.isSelectdType, Controler.path);
 		selectFolderCount.setVisible(true);
 		
 		count = new CountNgram();
@@ -29,6 +28,12 @@ public class ControlerFolderCountSelected {
 		
 		GetFolder getFolder = new GetFolder();
 		selectFolderCount.addActionGetFolder(getFolder);
+		
+		GetTypeCorpus getTypeCorpus = new GetTypeCorpus();
+		selectFolderCount.addActionGetType(getTypeCorpus);
+		
+		ChangeInfo changeInfo = new ChangeInfo();
+		selectFolderCount.addActionChangeInfo(changeInfo);
 		
 		UniAndBiFromFolder uniAndBiFromFolder = new UniAndBiFromFolder();
 		selectFolderCount.addActionCountUniAndBigram(uniAndBiFromFolder);
@@ -38,6 +43,10 @@ public class ControlerFolderCountSelected {
 		
 		FourFromFolder fourFromFolder = new FourFromFolder();
 		selectFolderCount.addAcitonCount4gram(fourFromFolder);
+		
+		if(Controler.path.compareTo("") != 0){
+			path = Controler.path;
+		}
 	}
 
 	class UniAndBiFromFolder implements ActionListener {
@@ -115,11 +124,31 @@ public class ControlerFolderCountSelected {
 			choose.showOpenDialog(null);
 			
 			path = choose.getSelectedFile().getAbsolutePath();
+			if(path != null){
+				Controler.isSelectedFolder = true;
+			}
+			Controler.path = path;
 			selectFolderCount.setTextPath().setText(path);
 		}
 
 	}
+	class GetTypeCorpus implements ActionListener {
 
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Controler.isSelectdType = selectFolderCount.getTypeOfCorpus();
+		}
+		
+	}
+	class ChangeInfo implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			selectFolderCount.getButtonFolder().setEnabled(true);
+			selectFolderCount.getCheckBoxType().setEnabled(true);
+		}
+		
+	}
 	public double sizeInMb(String folder) {
 		File file = new File(folder);
 		double size = 0;

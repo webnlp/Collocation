@@ -37,6 +37,7 @@ public class CountNgram {
 	}
 	
 	public void setType(boolean isTokenized){
+		target = "/home/zic/Desktop/NLP_RESULT/";
 		this.isTokenized = isTokenized;
 		if(isTokenized){
 			target += "tokenized/";
@@ -209,6 +210,7 @@ public class CountNgram {
 		ArrayList<String> listpath = DirectoryContents.getFileTxt(fileInput);
 		WriteFile wf = new WriteFile();
 		count4gramV2_2(listpath, loadBiAsUnigram);
+		System.out.println(output4gram);
 		wf.open(output4gram);
 		wf.write(fourgram.get4gramInString());
 		wf.close();

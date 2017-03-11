@@ -1,32 +1,39 @@
 package cis.nlp.file;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 public class SuperData {
-	private ArrayList<String> fileNames = new ArrayList<>();
+	private Hashtable<String, Integer> occurOnFile = new Hashtable<>();
 	private int numberOccurence = 0;
 	public SuperData(String filePath, int numberOccurence) {
-		fileNames.add(getFileName(filePath));
+		occurOnFile.put(getFileName(filePath), 1);
 		this.numberOccurence = numberOccurence;
 	}
 	public SuperData(String superDataInString) {
 		String[] elems = superDataInString.split(",");
 		numberOccurence = Integer.parseInt(elems[0]);
 		for(int i = 1; i < elems.length; i++){
-			fileNames.add(elems[i]);
+			String e[] = elems[i].split(":");
+			occurOnFile.put(e[0], Integer.parseInt(e[1]));
 		}
 	}
 	public String getFileNames() {
 		String allFilesName = "";
-		for (String name : fileNames) {
-			allFilesName += name + ",";
+		Enumeration<String> files = occurOnFile.keys();
+		while(files.hasMoreElements()){
+			String file = files.nextElement();
+			allFilesName += file + ":" + occurOnFile.get(file) + ",";
 		}
 		return allFilesName;
 	}
 	public void setFileNames(String filePath) {
 		String fileName = getFileName(filePath);
-		if(!fileNames.contains(fileName)){
-			fileNames.add(fileName);
+		if(occurOnFile.get(fileName) == null){
+			occurOnFile.put(fileName, 1);
+		} else {
+			occurOnFile.put(fileName, occurOnFile.get(fileName) + 1);
 		}
 	}
 	public int getNumberOccurence() {

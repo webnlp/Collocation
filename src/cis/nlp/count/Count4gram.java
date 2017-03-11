@@ -3,15 +3,17 @@ package cis.nlp.count;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import cis.nlp.file.Document;
+import cis.nlp.file.SuperData;
 import cis.nlp.io.WriteFile;
 
 public class Count4gram {
 	private static final Integer COUNTCUTOFF = 5;
-	private Hashtable<String, Hashtable<String, Integer>> fourgram;
-	public Hashtable<String, Hashtable<String, Integer>> get4gram() {
+	private Hashtable<String, Hashtable<String, SuperData>> fourgram;
+	public Hashtable<String, Hashtable<String, SuperData>> get4gram() {
 		return fourgram;
 	}
-	public void set4gram(Hashtable<String, Hashtable<String, Integer>> fourgram) {
+	public void set4gram(Hashtable<String, Hashtable<String, SuperData>> fourgram) {
 		this.fourgram = fourgram;
 	}
 
@@ -28,22 +30,25 @@ public class Count4gram {
 		this.n = n;
 	}
 
-	public void add(String word1, String word2){
+	public void add(String word1, String word2, Document doc){
 		word1 = word1.toLowerCase();
 		word2 = word2.toLowerCase();
 		if(fourgram.get(word1) == null){
-			Hashtable<String, Integer> value = new Hashtable<>();
-			value.put(word2, 1);
+			Hashtable<String, SuperData> value = new Hashtable<>();
+			value.put(word2, new SuperData(doc.getId(), 1));
 			fourgram.put(word1, value);
 			n++;
 		} else {
 			if (fourgram.get(word1).get(word2) == null) {
-				fourgram.get(word1).put(word2, 1);
+				fourgram.get(word1).put(word2, new SuperData(doc.getId(), 1));
 				n++;
 			} else {
-				Hashtable<String, Integer> value = new Hashtable<>();
+				Hashtable<String, SuperData> value = new Hashtable<>();
 				value = fourgram.get(word1);
-				value.put(word2, value.get(word2) + 1);
+				SuperData sd = value.get(word2);
+				sd.setFileNames(doc.getId());
+				sd.setNumberOccurence(sd.getNumberOccurence() + 1);
+				value.put(word2, sd);
 				fourgram.put(word1, value);
 			}
 		}
@@ -60,9 +65,10 @@ public class Count4gram {
 			String resValue = "";
 			while(e2.hasMoreElements()){
 				String tempValue = e2.nextElement();
-				Integer val = fourgram.get(temp).get(tempValue);
+				SuperData sd = fourgram.get(temp).get(tempValue);
+				Integer val = sd.getNumberOccurence();
 				if(val >= COUNTCUTOFF){
-					resValue +=temp +" " + tempValue + " " + val + "\n";
+					resValue +=temp + " " + tempValue + " " + sd.toString() + "\n";
 					sum += val;
 				} else {
 					fourgram.get(temp).remove(tempValue);
@@ -90,16 +96,12 @@ public class Count4gram {
 			String resValue = "";
 			while(e2.hasMoreElements()){
 				String tempValue = e2.nextElement();
-				Integer val = fourgram.get(temp).get(tempValue);
-				Integer fA = triAsUni.getOneCount().get(temp);
-				Integer fB = triAsUni.getOneCount().get(tempValue);
-				if(fA == null){
-					fA = 0;
-				} 
-				if(fB == null){
-					fB = 0;
-				}
-				resValue += temp +" " + tempValue + "," + val +","+ fA + ","+ fB +"\n";
+				SuperData sd = fourgram.get(temp).get(tempValue);
+				Integer val = sd.getNumberOccurence();
+				String onFiles = sd.getFileNames();
+				Integer fA = triAsUni.getOneCount().get(temp).getNumberOccurence();
+				Integer fB = triAsUni.getOneCount().get(tempValue).getNumberOccurence();
+				resValue += temp +" " + tempValue + "," + val +","+ fA + ","+ fB + "," + onFiles + "\n";
 			}
 			res += resValue;
 		}
@@ -107,7 +109,7 @@ public class Count4gram {
 		write.close();
 	}
 	
-	public void loadBigram(Hashtable<String, Hashtable<String, Integer>> fourgram){
+	public void loadBigram(Hashtable<String, Hashtable<String, SuperData>> fourgram){
 		this.fourgram = fourgram;
 	}
 }

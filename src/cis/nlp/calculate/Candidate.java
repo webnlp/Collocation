@@ -7,7 +7,13 @@ package cis.nlp.calculate;
 public class Candidate {
 	private String name;
 	private int freA, freB, freAB;
-
+	private String onFiles;
+	public String getOnFiles() {
+		return onFiles;
+	}
+	public void setOnFiles(String onFiles) {
+		this.onFiles = onFiles;
+	}
 	/**
 	 * 	Constructor with parameters
 	 * @param name : The name of unigram
@@ -57,7 +63,7 @@ public class Candidate {
 	}
 	@Override
 	public String toString() {
-		return name + "," + freA + "," + freB + "," + freAB ;
+		return name + "," + freA + "," + freB + "," + freAB + "," + onFiles ;
 	}
 	
 }

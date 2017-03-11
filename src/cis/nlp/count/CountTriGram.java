@@ -3,11 +3,13 @@ package cis.nlp.count;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import cis.nlp.file.Document;
+import cis.nlp.file.SuperData;
 import cis.nlp.io.WriteFile;
 
 public class CountTriGram {
 	private static final int COUNTCUTOFF = 5;
-	private Hashtable<String, Hashtable<String, Hashtable<String, Integer>>> trigram;
+	private Hashtable<String, Hashtable<String, Hashtable<String, SuperData>>> trigram;
 	private int n;
 	private WriteFile write;
 	
@@ -18,38 +20,33 @@ public class CountTriGram {
 	public int getNumberTrigrams(){
 		return n;
 	}
-	public void add(String w1, String w2, String w3){
+	public void add(String w1, String w2, String w3, Document doc){
 		w1 = w1.toLowerCase();
 		w2 = w2.toLowerCase();
 		w3 = w3.toLowerCase();
 		if(trigram.get(w1) == null){
-			Hashtable<String, Hashtable<String, Integer>> value1 = new Hashtable<>();
-			Hashtable<String, Integer> value2 = new Hashtable<>();
-			value2.put(w3, 1);
+			Hashtable<String, Hashtable<String, SuperData>> value1 = new Hashtable<>();
+			Hashtable<String, SuperData> value2 = new Hashtable<>();
+			value2.put(w3, new SuperData(doc.getId(), 1));
 			value1.put(w2, value2);
 			trigram.put(w1, value1);
 			n++;
 		} else if(trigram.get(w1).get(w2) == null){
-			Hashtable<String, Integer> value2 = new Hashtable<>();
-			value2.put(w3, 1);
+			Hashtable<String, SuperData> value2 = new Hashtable<>();
+			value2.put(w3, new SuperData(doc.getId(), 1));
 			trigram.get(w1).put(w2, value2);
 			n++;
 		} else if(trigram.get(w1).get(w2).get(w3) == null){
-			trigram.get(w1).get(w2).put(w3, 1);
+			trigram.get(w1).get(w2).put(w3, new SuperData(doc.getId(), 1));
 			n++;
 		} else {
-			int count = trigram.get(w1).get(w2).get(w3) + 1;
-			trigram.get(w1).get(w2).put(w3, count);
+			SuperData sd = trigram.get(w1).get(w2).get(w3);
+			sd.setFileNames(doc.getId());
+			sd.setNumberOccurence(sd.getNumberOccurence() + 1);
+			trigram.get(w1).get(w2).put(w3, sd);
 		}
 		
 	}
-	public void setHashtableTrigram(String[] list){
-		int lengthList = list.length - 2;
-		for(int i = 0; i < lengthList; i++){
-			add(list[i], list[i+1], list[i+2]);
-		}
-	}
-	
 	public String getTrigramInString(){
 		String res ="";
 		Enumeration<String> firstKeys = trigram.keys();
@@ -62,9 +59,11 @@ public class CountTriGram {
 				Enumeration<String> thirdKeys = trigram.get(firstWord).get(secondWord).keys();
 				while(thirdKeys.hasMoreElements()){
 					String thirdWord = thirdKeys.nextElement();
-					int count = trigram.get(firstWord).get(secondWord).get(thirdWord);
+					SuperData sd = trigram.get(firstWord).get(secondWord).get(thirdWord);
+					int count = sd.getNumberOccurence();
+					String onFiles = sd.getFileNames();
 					if(count >= COUNTCUTOFF){
-						res += firstWord + " " + secondWord + " " + thirdWord + " " + count + "\n";
+						res += firstWord + " " + secondWord + " " + thirdWord + " " + count + "," + onFiles + "\n";
 						sum += count;
 					} else {
 						trigram.get(firstWord).get(secondWord).remove(thirdWord);
@@ -95,11 +94,14 @@ public class CountTriGram {
 				Enumeration<String> thirdKeys = trigram.get(firstWord).get(secondWord).keys();
 				while(thirdKeys.hasMoreElements()){
 					String thirdWord = thirdKeys.nextElement();
-					int fAB = bigram.getBigram().get(firstWord).get(secondWord);
-					int fBC = bigram.getBigram().get(secondWord).get(thirdWord);
+					SuperData sd = trigram.get(firstWord).get(secondWord).get(thirdWord);
+					SuperData sd1 = bigram.getBigram().get(firstWord).get(secondWord);
+					SuperData sd2 = bigram.getBigram().get(secondWord).get(thirdWord);
+					int fAB = sd1.getNumberOccurence();
+					int fBC = sd2.getNumberOccurence();
 					
 					res += firstWord + " " + secondWord + " " + thirdWord + " " + fAB + " " + fBC
-							+ " " + trigram.get(firstWord).get(secondWord).get(thirdWord) + "\n";
+							+ " " + sd.getNumberOccurence() + "," + sd.getFileNames() + "\n";
 				}
 			}
 		}
@@ -109,10 +111,10 @@ public class CountTriGram {
 	public void setN(int numberOfBigram) {
 		n = numberOfBigram;
 	}
-	public void setTrigram(Hashtable<String, Hashtable<String, Hashtable<String, Integer>>> loadTrigram){
+	public void setTrigram(Hashtable<String, Hashtable<String, Hashtable<String, SuperData>>> loadTrigram){
 		trigram = loadTrigram;
 	}
-	public Hashtable<String, Hashtable<String, Hashtable<String, Integer>>> getTrigramCount(){
+	public Hashtable<String, Hashtable<String, Hashtable<String, SuperData>>> getTrigramCount(){
 		return trigram;
 	}
 }

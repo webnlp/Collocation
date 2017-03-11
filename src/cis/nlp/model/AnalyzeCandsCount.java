@@ -6,6 +6,7 @@ import java.util.Hashtable;
 
 import cis.nlp.calculate.Candidate;
 import cis.nlp.count.CountBigram;
+import cis.nlp.file.SuperData;
 
 public class AnalyzeCandsCount {
 	private LoadNgram load;
@@ -20,7 +21,7 @@ public class AnalyzeCandsCount {
 		ArrayList<Candidate> cands = new ArrayList<>();
 		CountBigram bigram = load.loadBigram();
 		
-		Hashtable<String, Hashtable<String, Integer>> bi = bigram.getBigram();
+		Hashtable<String, Hashtable<String, SuperData>> bi = bigram.getBigram();
 		Enumeration<String> first = bi.keys();
 		int end = 0;
 		while(first.hasMoreElements()){
@@ -30,11 +31,12 @@ public class AnalyzeCandsCount {
 			int begin = cands.size();
 			while(second.hasMoreElements()){
 				String secondWord = second.nextElement();
-				numberOfFirstWord += bi.get(firstWord).get(secondWord);
-				int fAB = bi.get(firstWord).get(secondWord);
+				int fAB = bi.get(firstWord).get(secondWord).getNumberOccurence();
+				numberOfFirstWord += fAB;
 				Candidate cand = new Candidate();
 				cand.setFreAB(fAB);
 				cand.setName(firstWord + " " + secondWord);
+				cand.setOnFiles(bi.get(firstWord).get(secondWord).getFileNames());
 				cands.add(cand);
 				end ++;
 			}
@@ -44,11 +46,11 @@ public class AnalyzeCandsCount {
 				cand.setFreA(numberOfFirstWord - cand.getFreAB());
 			}
 		}
-		Hashtable<String, Hashtable<String, Integer>> reverseBigram = load.getReverseBigram().getBigram();
+		Hashtable<String, Hashtable<String, SuperData>> reverseBigram = load.getReverseBigram().getBigram();
 		cands = getFreBofBigram(reverseBigram, cands);
 		return cands;
 	}
-	public ArrayList<Candidate> getFreBofBigram(Hashtable<String, Hashtable<String, Integer>> reverseBigram, 
+	public ArrayList<Candidate> getFreBofBigram(Hashtable<String, Hashtable<String, SuperData>> reverseBigram, 
 			ArrayList<Candidate> cands){
 		for (Candidate candidate : cands) {
 			String[] tokens = candidate.getName().split(" ");
@@ -56,15 +58,15 @@ public class AnalyzeCandsCount {
 			int numberOfFirstToken = 0;
 			while (second.hasMoreElements()) {
 				String secondWord = second.nextElement();
-				numberOfFirstToken += reverseBigram.get(tokens[1]).get(secondWord);
+				numberOfFirstToken += reverseBigram.get(tokens[1]).get(secondWord).getNumberOccurence();
 			}
-			candidate.setFreB(numberOfFirstToken - reverseBigram.get(tokens[1]).get(tokens[0]));
+			candidate.setFreB(numberOfFirstToken - reverseBigram.get(tokens[1]).get(tokens[0]).getNumberOccurence());
 		}
 		return cands;
 	}
 	public ArrayList<Candidate> getAnalyzeTrigramCount(){
 		ArrayList<Candidate> cands = new ArrayList<>();
-		Hashtable<String, Hashtable<String, Hashtable<String, Integer>>> tri = load.loadTrigram().getTrigramCount();
+		Hashtable<String, Hashtable<String, Hashtable<String, SuperData>>> tri = load.loadTrigram().getTrigramCount();
 		int end = 0;
 		int numberOfFirstWord = 0;
 		Enumeration<String> first = tri.keys();
@@ -78,10 +80,11 @@ public class AnalyzeCandsCount {
 				numberOfFirstWord = 0;
 				while(third.hasMoreElements()){
 					String thirdWord = third.nextElement();
-					numberOfFirstWord += tri.get(firstWord).get(secondWord).get(thirdWord);
+					numberOfFirstWord += tri.get(firstWord).get(secondWord).get(thirdWord).getNumberOccurence();
 					Candidate cand = new Candidate();
-					cand.setFreAB(tri.get(firstWord).get(secondWord).get(thirdWord));
+					cand.setFreAB(tri.get(firstWord).get(secondWord).get(thirdWord).getNumberOccurence());
 					cand.setName(firstWord + " " + secondWord + " " + thirdWord);
+					cand.setOnFiles(tri.get(firstWord).get(secondWord).get(thirdWord).getFileNames());
 					cands.add(cand);
 					end ++;
 				}
@@ -91,12 +94,12 @@ public class AnalyzeCandsCount {
 				}
 			}
 		}
-		Hashtable<String, Hashtable<String, Hashtable<String, Integer>>> reverseTrigram = load.getReverseTrigram().getTrigramCount();
+		Hashtable<String, Hashtable<String, Hashtable<String, SuperData>>> reverseTrigram = load.getReverseTrigram().getTrigramCount();
 		cands = getFreBofTrigram(reverseTrigram, cands);
 		
 		return cands;
 	}
-	public ArrayList<Candidate> getFreBofTrigram(Hashtable<String, Hashtable<String, Hashtable<String, Integer>>> reverseTrigram,
+	public ArrayList<Candidate> getFreBofTrigram(Hashtable<String, Hashtable<String, Hashtable<String, SuperData>>> reverseTrigram,
 			ArrayList<Candidate> cands){
 		for (Candidate candidate : cands) {
 			String[] tokens = candidate.getName().split(" ");
@@ -104,9 +107,9 @@ public class AnalyzeCandsCount {
 			int numberOfFirstWord = 0;
 			while (third.hasMoreElements()) {
 				String thirdWord = third.nextElement();
-				numberOfFirstWord += reverseTrigram.get(tokens[1]).get(tokens[2]).get(thirdWord);
+				numberOfFirstWord += reverseTrigram.get(tokens[1]).get(tokens[2]).get(thirdWord).getNumberOccurence();
 			}
-			candidate.setFreB(numberOfFirstWord - reverseTrigram.get(tokens[1]).get(tokens[2]).get(tokens[0]));
+			candidate.setFreB(numberOfFirstWord - reverseTrigram.get(tokens[1]).get(tokens[2]).get(tokens[0]).getNumberOccurence());
 		}
 		return cands;
 	}

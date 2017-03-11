@@ -3,10 +3,12 @@ package cis.nlp.model;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import javax.swing.text.AbstractDocument.LeafElement;
+
 import cis.nlp.count.CountBigram;
 import cis.nlp.count.CountTriGram;
 import cis.nlp.count.CountUnigram;
-import cis.nlp.io.DirectoryContents;
+import cis.nlp.file.SuperData;
 import cis.nlp.io.DirectorySavedResult;
 import cis.nlp.io.ReadFile;
 
@@ -46,15 +48,16 @@ public class LoadNgram {
 		rf.open(outputUnigram);
 		ArrayList<String> list = rf.read();
 		rf.close();
-		Hashtable<String, Integer> uniHashTable = new Hashtable<>();
+		Hashtable<String, SuperData> uniHashTable = new Hashtable<>();
 		int i = BEGIN;
 		int sizeOfList = list.size();
 		int average = Integer.parseInt(list.get(1));
 		int numberOfUnigram = 0;
 		while(i < sizeOfList){
 			String[] uni = list.get(i).split(" ");
-			if(Integer.parseInt(uni[1]) < 4 * average){
-				uniHashTable.put(uni[0], Integer.parseInt(uni[1]));
+			SuperData sd = new SuperData(uni[1]);
+			if(sd.getNumberOccurence() < 4 * average){
+				uniHashTable.put(uni[0], sd);
 				numberOfUnigram ++;
 			}
 			
@@ -71,29 +74,29 @@ public class LoadNgram {
 		ArrayList<String> list = rf.read();
 		rf.close();
 		
-		Hashtable<String, Hashtable<String, Integer>> biHashTable = new Hashtable<>();
-		Hashtable<String, Hashtable<String, Integer>> reverseBiHashTable = new Hashtable<>();
+		Hashtable<String, Hashtable<String, SuperData>> biHashTable = new Hashtable<>();
+		Hashtable<String, Hashtable<String, SuperData>> reverseBiHashTable = new Hashtable<>();
 		int i = BEGIN;
 		int sizOfList = list.size();
 		int numberOfBigram = 0;
 		while(i < sizOfList){
 			String[] bi = list.get(i).split(" ");
-			
+			SuperData sd = new SuperData(bi[2]);
 			if(biHashTable.get(bi[0]) == null){
-				Hashtable<String, Integer> second = new Hashtable<>();
-				second.put(bi[1], Integer.parseInt(bi[2]));
+				Hashtable<String, SuperData> second = new Hashtable<>();
+				second.put(bi[1], sd);
 				biHashTable.put(bi[0], second);
 			} else {
-				biHashTable.get(bi[0]).put(bi[1], Integer.parseInt(bi[2]));
+				biHashTable.get(bi[0]).put(bi[1], sd);
 			}
 			numberOfBigram ++;
-			totalFrequencyBigram += Integer.parseInt(bi[2]);
+			totalFrequencyBigram += sd.getNumberOccurence();
 			if(reverseBiHashTable.get(bi[1]) == null){
-				Hashtable<String, Integer> second = new Hashtable<>();
-				second.put(bi[0], Integer.parseInt(bi[2]));
+				Hashtable<String, SuperData> second = new Hashtable<>();
+				second.put(bi[0], new SuperData(bi[2]));
 				reverseBiHashTable.put(bi[1], second);
 			} else {
-				reverseBiHashTable.get(bi[1]).put(bi[0], Integer.parseInt(bi[2]));
+				reverseBiHashTable.get(bi[1]).put(bi[0], sd);
 			}
 			
 			i++;
@@ -114,41 +117,41 @@ public class LoadNgram {
 		ArrayList<String> list = rf.read();
 		rf.close();
 		
-		Hashtable<String, Hashtable<String, Hashtable<String, Integer>>> triHashTable = new Hashtable<>();
-		Hashtable<String, Hashtable<String, Hashtable<String, Integer>>> reverseTriHashTable = new Hashtable<>();
+		Hashtable<String, Hashtable<String, Hashtable<String, SuperData>>> triHashTable = new Hashtable<>();
+		Hashtable<String, Hashtable<String, Hashtable<String, SuperData>>> reverseTriHashTable = new Hashtable<>();
 		int i = BEGIN;
 		int sizOfList = list.size();
 		int numberOfBigram = 0;
 		while(i < sizOfList){
 			String[] tri = list.get(i).split(" ");
-			
+			SuperData sd = new SuperData(tri[3]);
 			if(triHashTable.get(tri[0]) == null){
-				Hashtable<String, Integer> third = new Hashtable<>();
-				third.put(tri[2], Integer.parseInt(tri[3]));
-				Hashtable<String, Hashtable<String, Integer>> second = new Hashtable<>();
+				Hashtable<String, SuperData> third = new Hashtable<>();
+				third.put(tri[2], sd);
+				Hashtable<String, Hashtable<String, SuperData>> second = new Hashtable<>();
 				second.put(tri[1], third);
 				triHashTable.put(tri[0], second);
 			} else if(triHashTable.get(tri[0]).get(tri[1]) == null){
-				Hashtable<String, Integer> third = new Hashtable<>();
-				third.put(tri[2], Integer.parseInt(tri[3]));
+				Hashtable<String, SuperData> third = new Hashtable<>();
+				third.put(tri[2], sd);
 				triHashTable.get(tri[0]).put(tri[1], third);
 			} else {
-				triHashTable.get(tri[0]).get(tri[1]).put(tri[2], Integer.parseInt(tri[3]));
+				triHashTable.get(tri[0]).get(tri[1]).put(tri[2], sd);
 			}
 			numberOfBigram ++;
-			totalFrequencyTrigram += Integer.parseInt(tri[3]);
+			totalFrequencyTrigram += sd.getNumberOccurence();
 			if(reverseTriHashTable.get(tri[1]) == null){
-				Hashtable<String, Integer> third = new Hashtable<>();
-				third.put(tri[0], Integer.parseInt(tri[3]));
-				Hashtable<String, Hashtable<String, Integer>> second = new Hashtable<>();
+				Hashtable<String, SuperData> third = new Hashtable<>();
+				third.put(tri[0], sd);
+				Hashtable<String, Hashtable<String, SuperData>> second = new Hashtable<>();
 				second.put(tri[2], third);
 				reverseTriHashTable.put(tri[1], second);
 			} else if(reverseTriHashTable.get(tri[1]).get(tri[2]) == null){
-				Hashtable<String, Integer> third = new Hashtable<>();
-				third.put(tri[0], Integer.parseInt(tri[3]));
+				Hashtable<String, SuperData> third = new Hashtable<>();
+				third.put(tri[0], sd);
 				reverseTriHashTable.get(tri[1]).put(tri[2], third);
 			} else {
-				reverseTriHashTable.get(tri[1]).get(tri[2]).put(tri[0], Integer.parseInt(tri[3]));
+				reverseTriHashTable.get(tri[1]).get(tri[2]).put(tri[0], sd);
 			}
 			
 			
@@ -174,13 +177,12 @@ public class LoadNgram {
 		ReadFile rf = new ReadFile();
 		rf.open(ngramPath);
 		ArrayList<String> list = rf.read();
-		Hashtable<String, Integer> ngramTriAsUni = new Hashtable<>();
+		Hashtable<String, SuperData> ngramTriAsUni = new Hashtable<>();
 		for(int i = BEGIN; i < list.size(); i ++){
 			String ngram = list.get(i);
 			String[] elems = ngram.split(" ");
-			String freq = elems[elems.length - 1];
-			String tokens = ngram.substring(0, ngram.length() - freq.length() -1);
-			ngramTriAsUni.put(tokens, Integer.valueOf(freq));
+			String tokens = ngram.substring(0, ngram.length() - elems[elems.length - 1].length() -1);
+			ngramTriAsUni.put(tokens, new SuperData(elems[elems.length - 1]));
 		}
 		ngramAsUni.setOneCount(ngramTriAsUni);
 		ngramAsUni.setN(Integer.parseInt(list.get(0)));

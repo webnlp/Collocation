@@ -5,6 +5,13 @@ import java.util.ArrayList;
 public class Document{
 	private String id;
 	private ArrayList<String> content;
+	
+	public Document(String id, ArrayList<String> content) {
+		this.id = id;
+		this.content = content;
+	}
+	public Document() {
+	}
 	public String getId() {
 		return id;
 	}
@@ -17,5 +24,4 @@ public class Document{
 	public void setContent(ArrayList<String> content) {
 		this.content = content;
 	}
-	
 }

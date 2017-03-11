@@ -1,20 +1,21 @@
 package cis.nlp.count;
 
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import cis.nlp.file.Document;
+import cis.nlp.file.SuperData;
 import cis.nlp.io.WriteFile;
 
 public class CountUnigram {
 	private static final int COUNTCUTOFF = 5;
-	private Hashtable<String, Integer> oneCount;
+	private Hashtable<String, SuperData> oneCount;
 	private int n;
-	public Hashtable<String, Integer> getOneCount() {
+	public Hashtable<String, SuperData> getOneCount() {
 		return oneCount;
 	}
 	
-	public void setOneCount(Hashtable<String, Integer> oneCount) {
+	public void setOneCount(Hashtable<String, SuperData> oneCount) {
 		this.oneCount = oneCount;
 		n = 0;
 	}
@@ -26,21 +27,17 @@ public class CountUnigram {
 		oneCount = new Hashtable<>();
 	}
 
-	public void setHashtableOneWord(ArrayList<String> list){
-		for (int i = 0; i < list.size(); i++) {
-			add(list.get(i));
-		}
-	}
-	
-
-	public void add(String word){
+	public void add(String word, Document doc){
 		
 			word = word.trim().replaceAll("//s+", " ").toLowerCase();
 			if(oneCount.get(word) == null){
-				oneCount.put(word, 1);
+				oneCount.put(word, new SuperData(doc.getId(), 1));
 				n++;
 			} else {
-				oneCount.put(word, oneCount.get(word) + 1);
+				SuperData sd = oneCount.get(word);
+				sd.setFileNames(doc.getId());
+				sd.setNumberOccurence(sd.getNumberOccurence() + 1);
+				oneCount.put(word, sd);
 			}
 		
 	}
@@ -51,11 +48,11 @@ public class CountUnigram {
 		long sum = 0;
 		while(e.hasMoreElements()){
 			String temp = e.nextElement();
-			int count = oneCount.get(temp);
+			SuperData sd = oneCount.get(temp);
+			int count = sd.getNumberOccurence();
 			if(count >= COUNTCUTOFF){
-				res += temp + " " + count +"\n";
+				res += temp + " " + sd.toString() + "\n";
 				sum += count;
-				if(temp.compareTo("sâm") == 0) System.out.println(count);
 			} else {
 				oneCount.remove(temp);
 				n--;
@@ -71,7 +68,7 @@ public class CountUnigram {
 		write.close();
 	}
 	
-	public void reload(Hashtable<String, Integer> loadUnigram){
+	public void reload(Hashtable<String, SuperData> loadUnigram){
 		oneCount = loadUnigram;
 	}
 

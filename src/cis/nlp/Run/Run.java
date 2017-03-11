@@ -10,5 +10,4 @@ public class Run {
 		Controler control = new Controler();
 		DirectorySavedResult.pathToSavedResult();
 	}
-
 }

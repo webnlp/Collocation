@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import cis.nlp.io.DirectoryContents;
+import cis.nlp.io.DirectorySavedResult;
 
 public class LineSplit {
-	private String target = "/home/zic/Desktop/NLP_RESULT/";
+	private String target = DirectorySavedResult.getDirectoryToSaveResult();
 	private int isTokenize;
 	public void setTypeCorpus(int isTokenize){
 		this.isTokenize = isTokenize;
@@ -22,6 +23,7 @@ public class LineSplit {
 	public void split(ArrayList<String> pathname){
 		setOuput();
 		ArrayList<String> currentContent = DirectoryContents.getFileTxt(target);
+		System.out.println(target);
 		int i = currentContent.size();
 		JOptionPane.showMessageDialog(null, i);
 		for (String path : pathname) {

@@ -65,4 +65,18 @@ public class ReadFile {
 		}
 		return lines;
 	}
+	
+	public ArrayList<String> readConfig(){
+		ArrayList<String> lines = new ArrayList<>();
+		String aline = "";
+		try {
+			while((aline = br.readLine()) != null){
+				lines.add(aline);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return lines;
+	}
 }

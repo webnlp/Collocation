@@ -3,16 +3,17 @@ package cis.nlp.model;
 import java.util.ArrayList;
 
 import cis.nlp.calculate.HandlingCollocation;
+import cis.nlp.io.DirectorySavedResult;
 import cis.nlp.io.ReadFile;
 
 public class Collocations {
 	private HandlingCollocation collocation;
-	private String inputFolder = "/home/zic/Desktop/NLP_RESULT/cands-nontokenized/";
-	private String outputFolder = "/home/zic/Desktop/NLP_RESULT/collocation-nontokenized/";
+	private String inputFolder = DirectorySavedResult.getDirectoryToSaveResult() + "cands-nontokenized/";
+	private String outputFolder = DirectorySavedResult.getDirectoryToSaveResult() + "collocation-nontokenized/";
 	public Collocations(int isTokenized) {
 		if(isTokenized == 0){
-			inputFolder = "/home/zic/Desktop/NLP_RESULT/cands-tokenized/";
-			outputFolder = "/home/zic/Desktop/NLP_RESULT/collocation-tokenized/";
+			inputFolder =  DirectorySavedResult.getDirectoryToSaveResult() + "cands-tokenized/";
+			outputFolder =  DirectorySavedResult.getDirectoryToSaveResult() + "collocation-tokenized/";
 		}
 	}
 	

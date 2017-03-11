@@ -6,6 +6,8 @@ import java.util.Hashtable;
 import cis.nlp.count.CountBigram;
 import cis.nlp.count.CountTriGram;
 import cis.nlp.count.CountUnigram;
+import cis.nlp.io.DirectoryContents;
+import cis.nlp.io.DirectorySavedResult;
 import cis.nlp.io.ReadFile;
 
 public class LoadNgram {
@@ -21,7 +23,7 @@ public class LoadNgram {
 	private ReadFile rf;
 	private long totalFrequencyBigram = 0;
 	private long totalFrequencyTrigram = 0;
-	private String target = "/home/zic/Desktop/NLP_RESULT/";
+	private String target = DirectorySavedResult.getDirectoryToSaveResult();
 	public LoadNgram() {
 		unigram = new CountUnigram();
 		bigram = new CountBigram();

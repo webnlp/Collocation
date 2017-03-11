@@ -12,6 +12,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import cis.nlp.calculate.Candidate;
+import cis.nlp.io.DirectorySavedResult;
 import cis.nlp.io.WriteFile;
 import cis.nlp.model.AnalyzeCandsCount;
 import cis.nlp.model.Collocations;
@@ -24,7 +25,7 @@ public class Controler {
 	private MainView mainView;
 	private DateFormat dateFormat;
 	private Collocations collocations;
-	private String target = "/home/zic/Desktop/NLP_RESULT/";
+	private String target = DirectorySavedResult.getDirectoryToSaveResult();
 	static boolean isSelectedFolder = false;
 	static boolean isSelectdType = false;
 	static String path = "";

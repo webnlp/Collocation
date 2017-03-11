@@ -10,6 +10,7 @@ import cis.nlp.count.CountTriGram;
 import cis.nlp.count.CountUnigram;
 import cis.nlp.count.StopWord;
 import cis.nlp.io.DirectoryContents;
+import cis.nlp.io.DirectorySavedResult;
 import cis.nlp.io.ReadFile;
 import cis.nlp.io.WriteFile;
 
@@ -26,7 +27,7 @@ public class CountNgram {
 	private static CheckWord check;
 	private boolean isTokenized;
 	private ArrayList<String> listpath;
-	private String target = "/home/zic/Desktop/NLP_RESULT/";
+	private String target = DirectorySavedResult.getDirectoryToSaveResult();
 	static boolean isLoadFile = false;
 	private ArrayList<ArrayList<String>> contentFolder;
 	public CountNgram() {
@@ -47,7 +48,7 @@ public class CountNgram {
 		isLoadFile = false;
 	}
 	public void setType(boolean isTokenized){
-		target = "/home/zic/Desktop/NLP_RESULT/";
+		target = DirectorySavedResult.getDirectoryToSaveResult();
 		this.isTokenized = isTokenized;
 		if(isTokenized){
 			target += "tokenized/";

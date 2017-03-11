@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import cis.nlp.io.DirectorySavedResult;
 import cis.nlp.io.ReadFile;
 import cis.nlp.io.WriteFile;
 
 public class TopCollocation {
 	private Hashtable<String, Integer> top;
 	private ArrayList<ArrayList<String>> list;
-	private String target = "/home/zic/Desktop/NLP_RESULT/";
+	private String target = DirectorySavedResult.getDirectoryToSaveResult();
 	public TopCollocation(String ngram, String type) {
 		top = new Hashtable<>();
 		list = new ArrayList<>();

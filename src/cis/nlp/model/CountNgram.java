@@ -29,16 +29,15 @@ public class CountNgram {
 	private ArrayList<String> listpath;
 	private String target = DirectorySavedResult.getDirectoryToSaveResult();
 	static boolean isLoadFile = false;
-	private ArrayList<ArrayList<String>> contentFolder;
+	private ReadFile rf;
 	public CountNgram() {
 		check = new CheckWord();
 		stopWords = new StopWord();
 	}
 	
-	public void setFileInput(String fileInput){
+	public void setFileInput(String folderInput){
 		if(!isLoadFile){
-			listpath = DirectoryContents.getFileTxt(fileInput);
-			contentFolder = getAllLine(listpath);
+			listpath = DirectoryContents.getFileTxt(folderInput);
 			isLoadFile = true;
 		}
 		
@@ -63,7 +62,7 @@ public class CountNgram {
 	public void countUnigram() {
 		one = new CountUnigram();
 		for (String apath : listpath) {
-			ReadFile rf = new ReadFile();
+			rf = new ReadFile();
 			rf.open(apath);
 			ArrayList<String> lines = rf.read();
 			rf.close();
@@ -83,7 +82,11 @@ public class CountNgram {
 	public void countBiGram(CountUnigram loadUnigram) {
 		bigram = new CountBigram();
 		Hashtable<String, Integer> unigram = loadUnigram.getOneCount();
-		for (ArrayList<String> allLines : contentFolder) {
+		for (String apath : listpath) {
+			rf = new ReadFile();
+			rf.open(apath);
+			ArrayList<String> allLines = rf.read();
+			rf.close();
 			for (String aline : allLines) {
 				String[] tokens = aline.split(" ");
 				int length = tokens.length;
@@ -101,7 +104,11 @@ public class CountNgram {
 	public void countTrigram(CountUnigram loadUnigram) {
 		trigram = new CountTriGram();
 		Hashtable<String, Integer> unigram = loadUnigram.getOneCount();
-		for (ArrayList<String> allLines : contentFolder) {
+		for (String apath : listpath) {
+			rf = new ReadFile();
+			rf.open(apath);
+			ArrayList<String> allLines = rf.read();
+			rf.close();
 			for (String aline : allLines) {
 				String[] tokens = aline.split(" ");
 				int length = tokens.length;
@@ -121,7 +128,11 @@ public class CountNgram {
 		fourgram = new Count4gram();
 		Hashtable<String, Integer> hasTriAsUni = loadTriAsUnigram.getOneCount();
 		Hashtable<String, Integer> hasUni = loadUnigram.getOneCount();
-		for (ArrayList<String> allLines : contentFolder) {
+		for (String apath : listpath) {
+			rf = new ReadFile();
+			rf.open(apath);
+			ArrayList<String> allLines = rf.read();
+			rf.close();
 			for (String aline : allLines) {
 				String[] tokens = aline.split(" ");
 				int i = 0;
@@ -139,7 +150,11 @@ public class CountNgram {
 	public void count4gramV2_2(CountUnigram loadBiAsUnigram){
 		fourgram = new Count4gram();
 		Hashtable<String, Integer> hashBiAsUni = loadBiAsUnigram.getOneCount();
-		for (ArrayList<String> allLines : contentFolder) {
+		for (String apath : listpath) {
+			rf = new ReadFile();
+			rf.open(apath);
+			ArrayList<String> allLines = rf.read();
+			rf.close();
 			for (String aline : allLines) {
 				String[] tokens = aline.split(" ");
 				int i = 0;
@@ -197,15 +212,5 @@ public class CountNgram {
 		wf.open(fileOutput);
 		wf.write(res);
 		wf.close();
-	}
-	public ArrayList<ArrayList<String>> getAllLine(ArrayList<String> listPath){
-		ArrayList<ArrayList<String>> contentFile = new ArrayList<>();
-		ReadFile rf = new ReadFile();
-		for (String apath : listPath) {
-			rf.open(apath);
-			ArrayList<String> allLinesInFile = rf.read();
-			contentFile.add(allLinesInFile);
-		}
-		return contentFile;
 	}
 }

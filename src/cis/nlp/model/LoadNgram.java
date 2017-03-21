@@ -53,7 +53,7 @@ public class LoadNgram {
 		int numberOfUnigram = 0;
 		while(i < sizeOfList){
 			String[] uni = list.get(i).split(" ");
-			if(Integer.parseInt(uni[1]) < 8 * average){
+			if(Integer.parseInt(uni[1]) < 4 * average){
 				uniHashTable.put(uni[0], Integer.parseInt(uni[1]));
 				numberOfUnigram ++;
 			}

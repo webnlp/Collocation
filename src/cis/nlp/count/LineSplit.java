@@ -83,7 +83,7 @@ public class LineSplit {
 	public void docFileVaTachCau(String fileNameInput, String fileNameOutPut) { 
 		rf = new ReadFile();
 		rf.open(fileNameInput);
-		ArrayList<String> lines  = rf.read();
+		ArrayList<String> lines  = rf.readFirst();
 		rf.close();
 		
 		wf = new WriteFile();

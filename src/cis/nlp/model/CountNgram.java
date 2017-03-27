@@ -26,6 +26,7 @@ public class CountNgram {
 	private static StopWord stopWords;
 	private static CheckWord check;
 	private boolean isTokenized;
+	private long numberOfSyllables = 0;
 	private ArrayList<String> listpath;
 	private String target = DirectorySavedResult.getDirectoryToSaveResult();
 	static boolean isLoadFile = false;
@@ -69,14 +70,14 @@ public class CountNgram {
 			for (String aline : lines) {
 				String[] tokens = aline.split(" ");
 				for (String token : tokens) {
-					
+					numberOfSyllables ++;
 					if (check.checkWord(token) && stopWords.isStopWord(token) == false) {
 						one.add(token);
 					}
 				}
 			}
 		}
-		
+		System.out.println(numberOfSyllables);
 	}
 
 	public void countBiGram(CountUnigram loadUnigram) {
@@ -211,6 +212,6 @@ public class CountNgram {
 		WriteFile wf = new WriteFile();
 		wf.open(fileOutput);
 		wf.write(res);
-		wf.close();
+		wf.close(); 
 	}
 }

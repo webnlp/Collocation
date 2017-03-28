@@ -1,33 +1,56 @@
 package cis.nlp.file;
 
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class SuperData {
 	private Hashtable<String, Integer> occurOnFile = new Hashtable<>();
+	private Hashtable<Integer, StringBuilder> reverseOccurOnFile = new Hashtable<>();
 	private int numberOccurence = 0;
 	public SuperData(String filePath, int numberOccurence) {
 		occurOnFile.put(getFileName(filePath), 1);
 		this.numberOccurence = numberOccurence;
 	}
 	public SuperData(String superDataInString) {
-		String[] elems = superDataInString.split(",");
+		String[] elems = superDataInString.split("\\|");
+		
 		numberOccurence = Integer.parseInt(elems[0]);
 		for(int i = 1; i < elems.length; i++){
-			String e[] = elems[i].split(":");
-			occurOnFile.put(e[0], Integer.parseInt(e[1]));
+			if(elems[i].contains(":")){
+				String e[] = elems[i].split(":");
+				String listFileNameInString[] = e[0].split(",");
+				for (String fileName : listFileNameInString) {
+					occurOnFile.put(fileName, Integer.parseInt(e[1]));
+				}
+			}
 		}
 	}
-	public String getFileNames() {
+	public void setReverseOccurOnFile(){
+		Enumeration<String> fileNames = occurOnFile.keys();
+		while(fileNames.hasMoreElements()){
+			String fileName = fileNames.nextElement();
+			Integer numberOfOccurence = occurOnFile.get(fileName);
+			if(reverseOccurOnFile.get(numberOfOccurence) == null){
+				reverseOccurOnFile.put(numberOfOccurence, new StringBuilder(fileName));
+			} else {
+				StringBuilder listFileNameInString = reverseOccurOnFile.get(numberOfOccurence);
+				listFileNameInString.append(",");
+				listFileNameInString.append(fileName);
+				reverseOccurOnFile.put(numberOfOccurence, listFileNameInString);
+				
+			}
+		}
+	}
+	public String getResultSuperData() {
 		String allFilesName = "";
-		Enumeration<String> files = occurOnFile.keys();
-		while(files.hasMoreElements()){
-			String file = files.nextElement();
-			allFilesName += file + ":" + occurOnFile.get(file) + ",";
+		Enumeration<Integer> listNumberOccur = reverseOccurOnFile.keys();
+		while(listNumberOccur.hasMoreElements()){
+			Integer number = listNumberOccur.nextElement();
+			allFilesName += reverseOccurOnFile.get(number) + ":" + number + "|";
 		}
 		return allFilesName;
 	}
+	
 	public void setFileNames(String filePath) {
 		String fileName = getFileName(filePath);
 		if(occurOnFile.get(fileName) == null){
@@ -48,7 +71,8 @@ public class SuperData {
 	}
 	@Override
 	public String toString() {
-		return numberOccurence + "," + getFileNames();
+		setReverseOccurOnFile();
+		return numberOccurence + "|" + getResultSuperData();
 	}
 	
 }

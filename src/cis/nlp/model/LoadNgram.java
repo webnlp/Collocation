@@ -3,8 +3,6 @@ package cis.nlp.model;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import javax.swing.text.AbstractDocument.LeafElement;
-
 import cis.nlp.count.CountBigram;
 import cis.nlp.count.CountTriGram;
 import cis.nlp.count.CountUnigram;
@@ -201,11 +199,5 @@ public class LoadNgram {
 	}
 	public long getTotalFrequencyTrigram(){
 		return totalFrequencyTrigram;
-	}
-	public static void main(String[] args) {
-		LoadNgram ngram = new LoadNgram();
-		ngram.setType(true);
-		ngram.loadTrigram();
-		System.out.println(ngram.getReverseTrigram().getTrigramInString());
 	}
 }

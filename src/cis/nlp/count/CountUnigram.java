@@ -5,7 +5,6 @@ import java.util.Hashtable;
 
 import cis.nlp.file.Document;
 import cis.nlp.file.SuperData;
-import cis.nlp.io.WriteFile;
 
 public class CountUnigram {
 	private static final int COUNTCUTOFF = 5;
@@ -41,37 +40,29 @@ public class CountUnigram {
 			}
 		
 	}
+	private long sum;
 	
-	public String getUnigramInString(){
-		String res = "";
+	public void reload(Hashtable<String, SuperData> loadUnigram){
+		oneCount = loadUnigram;
+	}
+	public void sumary(){
 		Enumeration<String> e = oneCount.keys();
-		long sum = 0;
+		sum = 0;
 		while(e.hasMoreElements()){
 			String temp = e.nextElement();
 			SuperData sd = oneCount.get(temp);
 			int count = sd.getNumberOccurence();
 			if(count >= COUNTCUTOFF){
-				res += temp + " " + sd.toString() + "\n";
 				sum += count;
 			} else {
 				oneCount.remove(temp);
 				n--;
 			}
 		}
-		return n + "\n"  + (sum / n) + "\n" +res;
 	}
-	
-	public void writeUnigramToFile(String fileOut){
-		WriteFile write = new WriteFile();
-		write.open(fileOut);
-		write.write(getUnigramInString());
-		write.close();
+	public long getSum(){
+		return sum;
 	}
-	
-	public void reload(Hashtable<String, SuperData> loadUnigram){
-		oneCount = loadUnigram;
-	}
-
 	public void setN(int numberOfUnigram) {
 		n = numberOfUnigram;
 	}

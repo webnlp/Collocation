@@ -80,6 +80,7 @@ public class CountNgram {
 			}
 		}
 		System.out.println("Number of Syllables " + numberOfSyllables);
+		
 	}
 
 	public void countBiGram(CountUnigram loadUnigram) {
@@ -185,41 +186,43 @@ public class CountNgram {
 
 	public void processUniBigram() {
 		countUnigram();
-		writeNgram(outputUnigram, one.getUnigramInString());
+		WriteFile wf = new WriteFile();
+		wf.open(outputUnigram);
+		one.sumary();
+		wf.writeHashUnigram(one);
+		wf.close();
 		System.out.println("Unigram: complete!");
 	
 		LoadNgram load = new LoadNgram();
 		load.setType(isTokenized);
 		CountUnigram loadUnigram = load.loadUnigram();
 		countBiGram(loadUnigram);
-		
-		writeNgram(outputBigram, bigram.getBigramInString());
+		bigram.sumary();
+		wf.open(outputBigram);
+		wf.writeHashBigram(bigram);
 		System.out.println("Bigram: complete!");
 	}
 	
 	public void processTrigram(CountUnigram loadUnigram){
 		countTrigram(loadUnigram);
-		writeNgram(outputTrigram, trigram.getTrigramInString());
+		trigram.sumary();
+		WriteFile wf = new WriteFile();
+		wf.open(outputTrigram);
+		wf.writeHashTrigram(trigram);
+		wf.close();
 		System.out.println("Trigram: complete!");
 	}
 	
 	public void process4gramV3_1(CountUnigram loadTriAsUnigram, CountUnigram loadUnigram){
 		count4gramV3_1(loadTriAsUnigram, loadUnigram);
-		writeNgram(output4gram, fourgram.get4gramInString());
+		WriteFile wf = new WriteFile();
+		wf.open(output4gram);
+		fourgram.sumary();
+		wf.writeHash4gram(fourgram);
+		wf.close();
 		System.out.println("Fourgram: complete!");
 	}
 	
-	public void process4gramV2_2(CountUnigram loadBiAsUnigram){
-		count4gramV2_2(loadBiAsUnigram);
-		writeNgram(output4gram, fourgram.get4gramInString());
-		System.out.println("Fourgram: complete!");
-	}
-	public void writeNgram(String fileOutput, String res){
-		WriteFile wf = new WriteFile();
-		wf.open(fileOutput);
-		wf.write(res);
-		wf.close();
-	}
 	public ArrayList<ArrayList<String>> getAllLine(ArrayList<String> listPath){
 		ArrayList<ArrayList<String>> contentFile = new ArrayList<>();
 		ReadFile rf = new ReadFile();

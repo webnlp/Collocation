@@ -36,7 +36,7 @@ public class AnalyzeCandsCount {
 				Candidate cand = new Candidate();
 				cand.setFreAB(fAB);
 				cand.setName(firstWord + " " + secondWord);
-				cand.setOnFiles(bi.get(firstWord).get(secondWord).getFileNames());
+				cand.setOnFiles(bi.get(firstWord).get(secondWord).getResultSuperData());
 				cands.add(cand);
 				end ++;
 			}
@@ -84,7 +84,7 @@ public class AnalyzeCandsCount {
 					Candidate cand = new Candidate();
 					cand.setFreAB(tri.get(firstWord).get(secondWord).get(thirdWord).getNumberOccurence());
 					cand.setName(firstWord + " " + secondWord + " " + thirdWord);
-					cand.setOnFiles(tri.get(firstWord).get(secondWord).get(thirdWord).getFileNames());
+					cand.setOnFiles(tri.get(firstWord).get(secondWord).get(thirdWord).getResultSuperData());
 					cands.add(cand);
 					end ++;
 				}

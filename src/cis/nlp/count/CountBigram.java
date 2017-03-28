@@ -1,6 +1,5 @@
 package cis.nlp.count;
 
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -56,22 +55,18 @@ public class CountBigram{
 			}
 		}
 	}
-	
-	public String getBigramInString(){
+	private long sum = 0;
+	public void sumary(){
 		
-		String res = "";
 		Enumeration<String> e = bigram.keys();
-		long sum = 0;
 		while(e.hasMoreElements()){
 			String temp = e.nextElement();
 			Enumeration<String> e2 = bigram.get(temp).keys();
-			String resValue = "";
 			while(e2.hasMoreElements()){
 				String tempValue = e2.nextElement();
 				SuperData sd = bigram.get(temp).get(tempValue);
 				Integer val = sd.getNumberOccurence();
 				if(val >= COUNTCUTOFF){
-					resValue +=temp +" " + tempValue + " " + sd.toString() + "\n";
 					sum += val;
 				} else {
 					bigram.get(temp).remove(tempValue);
@@ -82,12 +77,12 @@ public class CountBigram{
 			if(bigram.get(temp).isEmpty()){
 				bigram.remove(temp);
 			}
-			res += resValue;
 		}
 		
-		return n + "\n" + (sum / n) + "\n" + res;
 	}
-	
+	public long getSum(){
+		return sum;
+	}
 	public void writeBigramToFile(CountUnigram one,String fileOutbigram){
 		write = new WriteFile();
 		write.open(fileOutbigram);
@@ -102,13 +97,8 @@ public class CountBigram{
 				Integer val = bigram.get(temp).get(tempValue).getNumberOccurence();
 				Integer fA = one.getOneCount().get(temp).getNumberOccurence();
 				Integer fB = one.getOneCount().get(tempValue).getNumberOccurence();
-				String onFiles = bigram.get(temp).get(tempValue).getFileNames();
-				if(fA == null){
-					fA = 0;
-				} 
-				if(fB == null){
-					fB = 0;
-				}
+				String onFiles = bigram.get(temp).get(tempValue).getResultSuperData();
+				
 				resValue += temp +" " + tempValue + "," + val +","+ fA + ","+ fB + "," + onFiles + "\n";
 			}
 			res += resValue;

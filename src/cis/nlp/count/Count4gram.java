@@ -5,7 +5,6 @@ import java.util.Hashtable;
 
 import cis.nlp.file.Document;
 import cis.nlp.file.SuperData;
-import cis.nlp.io.WriteFile;
 
 public class Count4gram {
 	private static final Integer COUNTCUTOFF = 5;
@@ -18,7 +17,6 @@ public class Count4gram {
 	}
 
 	private int n;
-	private WriteFile write;
 	public Count4gram() {
 		fourgram = new Hashtable<>();
 		n = 0;
@@ -53,22 +51,18 @@ public class Count4gram {
 			}
 		}
 	}
-	
-	public String get4gramInString(){
+	private long sum = 0;
+	public void sumary(){
 		
-		String res = "";
 		Enumeration<String> e = fourgram.keys();
-		long sum = 0;
 		while(e.hasMoreElements()){
 			String temp = e.nextElement();
 			Enumeration<String> e2 = fourgram.get(temp).keys();
-			String resValue = "";
 			while(e2.hasMoreElements()){
 				String tempValue = e2.nextElement();
 				SuperData sd = fourgram.get(temp).get(tempValue);
 				Integer val = sd.getNumberOccurence();
 				if(val >= COUNTCUTOFF){
-					resValue +=temp + " " + tempValue + " " + sd.toString() + "\n";
 					sum += val;
 				} else {
 					fourgram.get(temp).remove(tempValue);
@@ -79,36 +73,12 @@ public class Count4gram {
 			if(fourgram.get(temp).isEmpty()){
 				fourgram.remove(temp);
 			}
-			res += resValue;
 		}
 		
-		return n + "\n" + (sum / n) + "\n" + res;
 	}
-	
-	public void write4gramToFile(CountUnigram triAsUni,String fileOut4gram){
-		write = new WriteFile();
-		write.open(fileOut4gram);
-		String res = n+"\n";
-		Enumeration<String> e = fourgram.keys();
-		while(e.hasMoreElements()){
-			String temp = e.nextElement();
-			Enumeration<String> e2 = fourgram.get(temp).keys();
-			String resValue = "";
-			while(e2.hasMoreElements()){
-				String tempValue = e2.nextElement();
-				SuperData sd = fourgram.get(temp).get(tempValue);
-				Integer val = sd.getNumberOccurence();
-				String onFiles = sd.getFileNames();
-				Integer fA = triAsUni.getOneCount().get(temp).getNumberOccurence();
-				Integer fB = triAsUni.getOneCount().get(tempValue).getNumberOccurence();
-				resValue += temp +" " + tempValue + "," + val +","+ fA + ","+ fB + "," + onFiles + "\n";
-			}
-			res += resValue;
-		}
-		write.write(res);
-		write.close();
+	public long getSum(){
+		return sum;
 	}
-	
 	public void loadBigram(Hashtable<String, Hashtable<String, SuperData>> fourgram){
 		this.fourgram = fourgram;
 	}

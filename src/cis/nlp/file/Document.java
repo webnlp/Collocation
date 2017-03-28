@@ -2,6 +2,8 @@ package cis.nlp.file;
 
 import java.util.ArrayList;
 
+import cis.nlp.io.EncodeFileName;
+
 public class Document{
 	private String id;
 	private ArrayList<String> content;
@@ -13,7 +15,7 @@ public class Document{
 	public Document() {
 	}
 	public String getId() {
-		return id;
+		return EncodeFileName.getFileEncode(id);
 	}
 	public void setId(String id) {
 		this.id = id;

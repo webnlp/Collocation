@@ -105,8 +105,8 @@ public class ControlerFolderCountSelected {
 			CountUnigram loadBiAsUnigram = load.loadNgramAsUnigram("bigram");
 			count.setType(isTokenized);
 			count.setFileInput(path);
-//			count.process4gramV3_1(loadTriAsUnigram, loadUnigram);
-			count.process4gramV2_2(loadBiAsUnigram);
+			count.process4gramV3_1(loadTriAsUnigram, loadUnigram);
+//			count.process4gramV2_2(loadBiAsUnigram);
 			String end = getTime();
 			MainView.getTextArea().append("Count trigram " + sizeInMbytes + "Mb"
 					+ "\n Trigram: Done!! "

@@ -47,10 +47,9 @@ public class CountTriGram {
 		}
 		
 	}
-	public String getTrigramInString(){
-		String res ="";
+	private long sum = 0;
+	public void sumary(){
 		Enumeration<String> firstKeys = trigram.keys();
-		long sum = 0;
 		while(firstKeys.hasMoreElements()){
 			String firstWord = firstKeys.nextElement();
 			Enumeration<String> secondKeys = trigram.get(firstWord).keys();
@@ -61,9 +60,7 @@ public class CountTriGram {
 					String thirdWord = thirdKeys.nextElement();
 					SuperData sd = trigram.get(firstWord).get(secondWord).get(thirdWord);
 					int count = sd.getNumberOccurence();
-					String onFiles = sd.getFileNames();
 					if(count >= COUNTCUTOFF){
-						res += firstWord + " " + secondWord + " " + thirdWord + " " + count + "," + onFiles + "\n";
 						sum += count;
 					} else {
 						trigram.get(firstWord).get(secondWord).remove(thirdWord);
@@ -78,9 +75,10 @@ public class CountTriGram {
 				trigram.remove(firstWord);
 			}
 		}
-		return n +"\n" + sum / n + "\n" + res;
 	}
-	
+	public long getSum(){
+		return sum;
+	}
 	public void writeTrigramToFile(String pathfile, CountBigram bigram){
 		write = new WriteFile();
 		write.open(pathfile);
@@ -101,7 +99,7 @@ public class CountTriGram {
 					int fBC = sd2.getNumberOccurence();
 					
 					res += firstWord + " " + secondWord + " " + thirdWord + " " + fAB + " " + fBC
-							+ " " + sd.getNumberOccurence() + "," + sd.getFileNames() + "\n";
+							+ " " + sd.getNumberOccurence() + "," + sd.getResultSuperData() + "\n";
 				}
 			}
 		}

@@ -2,8 +2,6 @@ package cis.nlp.model;
 
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 import cis.nlp.io.DirectoryContents;
 import cis.nlp.io.DirectorySavedResult;
 
@@ -22,15 +20,11 @@ public class LineSplit {
 	}
 	public void split(ArrayList<String> pathname){
 		setOuput();
-		ArrayList<String> currentContent = DirectoryContents.getFileTxt(target);
-		System.out.println(target);
-		int i = currentContent.size();
-		JOptionPane.showMessageDialog(null, i);
 		for (String path : pathname) {
 			System.out.println(path);
+			String[] oldName = path.split("/");
 			cis.nlp.count.LineSplit ls = new cis.nlp.count.LineSplit();
-			ls.docFileVaTachCau(path, target + "/" + i + ".txt");
-			i++;
+			ls.docFileVaTachCau(path, target + "/" + oldName[oldName.length - 1]);
 		}
 	}
 	public void process(String fileInput) {

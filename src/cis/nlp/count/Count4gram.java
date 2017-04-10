@@ -82,4 +82,8 @@ public class Count4gram {
 	public void loadBigram(Hashtable<String, Hashtable<String, SuperData>> fourgram){
 		this.fourgram = fourgram;
 	}
+	public void get(String w1, String w2){
+		SuperData sd = fourgram.get(w1).get(w2);
+		System.out.println(sd.toString());
+	}
 }

@@ -3,6 +3,7 @@ package cis.nlp.model;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import cis.nlp.count.Count4gram;
 import cis.nlp.count.CountBigram;
 import cis.nlp.count.CountTriGram;
 import cis.nlp.count.CountUnigram;
@@ -15,21 +16,28 @@ public class LoadNgram {
 	private String outputUnigram;
 	private String outputBigram;
 	private String outputTrigram;
+	private String outputFourgram;
 	private CountUnigram unigram;
 	private CountBigram bigram;
 	private CountTriGram trigram;
+	private Count4gram fourgram;
 	private CountBigram reverseBigram;
 	private CountTriGram reverseTrigram;
+	private Count4gram reverseFourgram;
 	private ReadFile rf;
 	private long totalFrequencyBigram = 0;
 	private long totalFrequencyTrigram = 0;
+	private long totalFrequencyFourgram = 0;
 	private String target = DirectorySavedResult.getDirectoryToSaveResult();
 	public LoadNgram() {
 		unigram = new CountUnigram();
 		bigram = new CountBigram();
 		trigram = new CountTriGram();
+		fourgram = new Count4gram();
+		
 		reverseBigram = new CountBigram();
 		reverseTrigram = new CountTriGram();
+		reverseFourgram = new Count4gram();
 	}
 	public void setType(boolean isTokenized){
 		if(isTokenized){
@@ -40,6 +48,7 @@ public class LoadNgram {
 		outputUnigram = target + "unigram.txt";
 		outputBigram = target + "bigram.txt";
 		outputTrigram = target + "trigram.txt";
+		outputFourgram = target + "fourgram.txt";
 	}
 	public CountUnigram loadUnigram(){
 		rf = new ReadFile();
@@ -163,7 +172,51 @@ public class LoadNgram {
 		trigram.setTrigram(triHashTable);
 		return trigram;
 	}
-	
+	public Count4gram load4gram(){
+		ReadFile rf = new ReadFile();
+		rf.open(outputFourgram);
+		ArrayList<String> list = rf.read();
+		rf.close();
+		
+		Hashtable<String, Hashtable<String, SuperData>> fourHashTable = new Hashtable<>();
+		Hashtable<String, Hashtable<String, SuperData>> reverseFourHashTable = new Hashtable<>();
+		
+		int i = BEGIN;
+		int sizeOfList = list.size();
+		int numberOfFourgram = 0;
+		while(i < sizeOfList){
+			String[] four = list.get(i).split(" ");
+			
+			String first = four[0] + " " + four[1] + " " + four[2];
+			String second = four[3];
+			SuperData sd = new SuperData(four[4]);
+			
+			totalFrequencyFourgram += sd.getNumberOccurence();
+			if(fourHashTable.get(first) == null){
+				Hashtable<String, SuperData> secondHasTable = new Hashtable<>();
+				secondHasTable.put(second, sd);
+				fourHashTable.put(first, secondHasTable);
+			} else {
+				fourHashTable.get(first).put(second, sd);
+			}
+			
+			if(reverseFourHashTable.get(second) == null){
+				Hashtable<String, SuperData> secondHasTable = new Hashtable<>();
+				secondHasTable.put(first, sd);
+				reverseFourHashTable.put(second, secondHasTable);
+			} else {
+				reverseFourHashTable.get(second).put(first, sd);
+			}
+			i++;
+			numberOfFourgram ++;
+		}
+		reverseFourgram.setN(numberOfFourgram);
+		reverseFourgram.set4gram(reverseFourHashTable);
+		
+		fourgram.setN(numberOfFourgram);
+		fourgram.set4gram(fourHashTable);
+		return fourgram;
+	}
 	public CountUnigram loadNgramAsUnigram(String input){
 		String ngramPath = "";
 		if(input.compareTo("bigram") == 0){
@@ -193,11 +246,22 @@ public class LoadNgram {
 	public CountTriGram getReverseTrigram(){
 		return reverseTrigram;
 	}
-	
+	public Count4gram getReverseFourgram(){
+		return reverseFourgram;
+	}
 	public long getTotalFrequencyBigram(){
 		return totalFrequencyBigram;
 	}
 	public long getTotalFrequencyTrigram(){
 		return totalFrequencyTrigram;
+	}
+	public long getTotalFrequencyFourgram(){
+		return totalFrequencyFourgram;
+	}
+	public static void main(String[] args) {
+		LoadNgram ngram = new LoadNgram();
+		ngram.setType(false);
+		ngram.load4gram();
+		ngram.getReverseFourgram().get("đầy", "án lưu trữ");
 	}
 }

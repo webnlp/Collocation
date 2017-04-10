@@ -110,6 +110,7 @@ public class Controler {
 				candsCount = new AnalyzeCandsCount(true);
 				ArrayList<Candidate> candsBigram = candsCount.getAnalyzeBigramCount();
 				ArrayList<Candidate> candsTrigram = candsCount.getAnalyzeTrigramCount();
+				ArrayList<Candidate> candsFourgram = candsCount.getAnalyzeFourgramCount();
 				candsCount.removeBigramBelongTrigram(candsBigram, candsTrigram);
 				WriteFile wf = new WriteFile();
 				wf.open(target + "cands-tokenized/cands-bi.txt");
@@ -119,6 +120,10 @@ public class Controler {
 				wf.open(target + "cands-tokenized/cands-tri.txt");
 				wf.writeCandidates(candsTrigram, candsCount.getLoadNgram().getTotalFrequencyTrigram());
 				wf.close();
+				
+				wf.open(target + "cands-tokenized/cands-four.txt");
+				wf.writeCandidates(candsFourgram, candsCount.getLoadNgram().getTotalFrequencyFourgram());
+				wf.close();
 				String end = getTime();
 				mainView.getTextArea().append("Get candidates from tokenized corpus: \n"
 						+ "size in MB: " + sizeInMb(target + "tokenized") + "\n"
@@ -127,7 +132,7 @@ public class Controler {
 				candsCount = new AnalyzeCandsCount(false);
 				ArrayList<Candidate> candsBigram = candsCount.getAnalyzeBigramCount();
 				ArrayList<Candidate> candsTrigram = candsCount.getAnalyzeTrigramCount();
-				
+				ArrayList<Candidate> candsFourgram = candsCount.getAnalyzeFourgramCount();
 				WriteFile wf = new WriteFile();
 				wf.open(target + "cands-nontokenized/cands-bi.txt");
 				wf.writeCandidates(candsBigram, candsCount.getLoadNgram().getTotalFrequencyBigram());
@@ -135,6 +140,10 @@ public class Controler {
 				
 				wf.open(target + "cands-nontokenized/cands-tri.txt");
 				wf.writeCandidates(candsTrigram, candsCount.getLoadNgram().getTotalFrequencyTrigram());
+				wf.close();
+				
+				wf.open(target + "cands-nontokenized/cands-four.txt");
+				wf.writeCandidates(candsFourgram, candsCount.getLoadNgram().getTotalFrequencyFourgram());
 				wf.close();
 				String end = getTime();
 				mainView.getTextArea().append("Get candidates from non-tokenized corpus: \n"
@@ -158,13 +167,13 @@ public class Controler {
 				collocations = new Collocations(isTokenized);
 				collocations.calculate("cands-bi");
 				collocations.calculate("cands-tri");
-				
+				collocations.calculate("cands-four");
 				ViewCollocation viewCollocation = new ViewCollocation();
 				viewCollocation.setVisible(true);
 				String fileToShow = "";
-				while(!fileToShow.equals("cands-bi") && !fileToShow.equals("cands-tri")){
-					fileToShow = JOptionPane.showInputDialog("Do you want to watch cands-bi or cands-tri collocation? \n"
-							+ "cands-bi: Candidates of bigram ; cands-tri: Candidates of trigram");
+				while(!fileToShow.equals("cands-bi") && !fileToShow.equals("cands-tri") && !fileToShow.equals("cands-four")){
+					fileToShow = JOptionPane.showInputDialog("Do you want to watch cands-bi, cands-tri, cands-four collocation? \n"
+							+ "cands-bi: Candidates of bigram ; cands-tri: Candidates of trigram; cands-four: Candidates of four gram");
 				}
 				viewCollocation.initModel(collocations.showCollocation(fileToShow));
 				viewCollocation.setVisible(true);

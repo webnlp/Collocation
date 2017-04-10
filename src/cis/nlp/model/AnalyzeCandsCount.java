@@ -114,6 +114,54 @@ public class AnalyzeCandsCount {
 		return cands;
 	}
 	
+	public ArrayList<Candidate> getAnalyzeFourgramCount(){
+		ArrayList<Candidate> cands = new ArrayList<>();
+		
+		Hashtable<String, Hashtable<String, SuperData>> fourgram = load.load4gram().get4gram();
+		Enumeration<String> firstKeys = fourgram.keys();
+		while(firstKeys.hasMoreElements()){
+			String first = firstKeys.nextElement();
+			Enumeration<String> secondKeys = fourgram.get(first).keys();
+			int end = 0, begin = cands.size();
+			int numberOfFirstKey = 0;
+			while(secondKeys.hasMoreElements()){
+				String second = secondKeys.nextElement();
+				SuperData sd = fourgram.get(first).get(second);
+				
+				Candidate cand = new Candidate();
+				cand.setFreAB(sd.getNumberOccurence());
+				cand.setOnFiles(sd.getResultSuperData());
+				cand.setName(first + " " + second);
+				
+				cands.add(cand);
+				numberOfFirstKey += sd.getNumberOccurence();
+				end ++;
+			}
+			
+			for(int i = begin; i < begin + end; i++){
+				Candidate cand = cands.get(i);
+				cand.setFreA(numberOfFirstKey - cand.getFreAB());
+			}
+		}
+		Hashtable<String, Hashtable<String, SuperData>> reverseFourgram = load.getReverseFourgram().get4gram();
+		cands = getFreBofFourgram(cands, reverseFourgram);
+		return cands;
+	}
+	
+	public ArrayList<Candidate> getFreBofFourgram(ArrayList<Candidate> cands, Hashtable<String, Hashtable<String, SuperData>> reverseFourgram){
+		for (Candidate candidate : cands) {
+			String[] elems = candidate.getName().split(" ");
+			Enumeration<String> firstKeys = reverseFourgram.get(elems[3]).keys();
+			int numberOfSecond = 0;
+			while(firstKeys.hasMoreElements()){
+				String first = firstKeys.nextElement();
+				SuperData sd = reverseFourgram.get(elems[3]).get(first);
+				numberOfSecond += sd.getNumberOccurence();
+			}
+			candidate.setFreB(numberOfSecond - candidate.getFreAB());
+		}
+		return cands;
+	}
 	public void removeBigramBelongTrigram(ArrayList<Candidate> bigram, ArrayList<Candidate> trigram){
 		Hashtable<String, Integer> hashBiOnTrigram = getHashBigramContainTrigram(trigram);
 		ArrayList<Candidate> cp = copyCandidates(bigram);

@@ -200,6 +200,7 @@ public class CountNgram {
 		bigram.sumary();
 		wf.open(outputBigram);
 		wf.writeHashBigram(bigram);
+		wf.close();
 		System.out.println("Bigram: complete!");
 	}
 	

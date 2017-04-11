@@ -3,6 +3,8 @@ package cis.nlp.model;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import javax.swing.JOptionPane;
+
 import cis.nlp.count.Count4gram;
 import cis.nlp.count.CountBigram;
 import cis.nlp.count.CountTriGram;
@@ -88,6 +90,11 @@ public class LoadNgram {
 		int numberOfBigram = 0;
 		while(i < sizOfList){
 			String[] bi = list.get(i).split(" ");
+			if(bi.length < 3){
+				JOptionPane.showMessageDialog(null, "Bigram error!! " + list.get(i));
+				i++;
+				continue;
+			}
 			SuperData sd = new SuperData(bi[2]);
 			if(biHashTable.get(bi[0]) == null){
 				Hashtable<String, SuperData> second = new Hashtable<>();
@@ -131,6 +138,11 @@ public class LoadNgram {
 		int numberOfBigram = 0;
 		while(i < sizOfList){
 			String[] tri = list.get(i).split(" ");
+			if(tri.length < 4){
+				JOptionPane.showMessageDialog(null, "Trigram error!! " + list.get(i));
+				i++;
+				continue;
+			}
 			SuperData sd = new SuperData(tri[3]);
 			if(triHashTable.get(tri[0]) == null){
 				Hashtable<String, SuperData> third = new Hashtable<>();
@@ -186,7 +198,11 @@ public class LoadNgram {
 		int numberOfFourgram = 0;
 		while(i < sizeOfList){
 			String[] four = list.get(i).split(" ");
-			
+			if(four.length < 5){
+				JOptionPane.showMessageDialog(null, "Fourgram error!! " + list.get(i));
+				i++;
+				continue;
+			}
 			String first = four[0] + " " + four[1] + " " + four[2];
 			String second = four[3];
 			SuperData sd = new SuperData(four[4]);

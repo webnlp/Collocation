@@ -3,6 +3,8 @@ package cis.nlp.file;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import javax.swing.JOptionPane;
+
 public class SuperData {
 	private Hashtable<String, Integer> occurOnFile = new Hashtable<>();
 	private Hashtable<Integer, StringBuilder> reverseOccurOnFile = new Hashtable<>();
@@ -20,7 +22,11 @@ public class SuperData {
 				String e[] = elems[i].split(":");
 				String listFileNameInString[] = e[0].split(",");
 				for (String fileName : listFileNameInString) {
-					occurOnFile.put(fileName, Integer.parseInt(e[1]));
+					try {
+						occurOnFile.put(fileName, Integer.parseInt(e[1]));
+					} catch(Exception ee){
+						JOptionPane.showMessageDialog(null, superDataInString);
+					}
 				}
 			}
 		}

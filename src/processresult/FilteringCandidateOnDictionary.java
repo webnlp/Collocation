@@ -1,6 +1,5 @@
 package processresult;
 
-import java.io.FilterWriter;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -14,7 +13,6 @@ public class FilteringCandidateOnDictionary {
 	private ReadFile rf;
 	private WriteFile wf;
 	private String pathCandidate;
-	private String pathCandidateOnDictionary = "cands_on_dictionary.txt";
 	private String pathVNDictionary = "tdvn.txt";
 	private String pathMedicalDictionary = "tdyh.txt";
 	public FilteringCandidateOnDictionary(String fileName) {

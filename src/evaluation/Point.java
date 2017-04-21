@@ -32,6 +32,11 @@ public class Point {
 		this.recall = recall;
 		this.type = type;
 	}
+
+	@Override
+	public String toString() {
+		return "Point [precision= " + precision + ", recall= " + recall + ", type= " + type + "]";
+	}
 	
 	
 }

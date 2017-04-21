@@ -9,12 +9,16 @@ public class TestRemoveBigram {
 	public static void main(String[] args) {
 		AnalyzeCandsCount ac = new AnalyzeCandsCount(true);
 		ArrayList<Candidate> bigram = ac.getAnalyzeBigramCount();
-		System.out.println(bigram.size());
+		ArrayList<Candidate> fourgram = ac.getAnalyzeFourgramCount();
 		ArrayList<Candidate> trigram = ac.getAnalyzeTrigramCount();
-		ac.removeBigramBelongTrigram(bigram, trigram);
 		System.out.println(bigram.size());
-		for (Candidate candidate : bigram) {
-			System.out.println(candidate.toString());
-		}
+		System.out.println(trigram.size());
+		ac.removeNgramBelongNgram(bigram, trigram);
+		ac.removeNgramBelongNgram(trigram, fourgram);
+//		System.out.println(bigram.size());
+		System.out.println(trigram.size());
+//		for (Candidate candidate : bigram) {
+//			System.out.println(candidate.toString());
+//		}
 	}
 }

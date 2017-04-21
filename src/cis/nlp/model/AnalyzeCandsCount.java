@@ -162,31 +162,15 @@ public class AnalyzeCandsCount {
 		}
 		return cands;
 	}
-	public void removeBigramBelongTrigram(ArrayList<Candidate> bigram, ArrayList<Candidate> trigram){
-		Hashtable<String, Integer> hashBiOnTrigram = getHashBigramContainTrigram(trigram);
-		ArrayList<Candidate> cp = copyCandidates(bigram);
-		for (Candidate candidate : cp) {
-			int freOfBi = candidate.getFreAB();
-			String name = candidate.getName();
-			Integer freBiOnTri = hashBiOnTrigram.get(name);
-			if(freBiOnTri != null){
-				if(freOfBi - freBiOnTri < 5){
-					bigram.remove(candidate);
-				}
+	public void removeNgramBelongNgram(ArrayList<Candidate> ngramShort, ArrayList<Candidate> ngramLong){
+		ArrayList<Candidate> cp = copyCandidates(ngramShort);
+		for (Candidate candShort : cp) {
+			int n = 0;
+			for (Candidate candLong : ngramLong) {
+				if(candLong.getName().contains(candShort.getName())) n++;
 			}
+			if(n == 1) ngramShort.remove(candShort);
 		}
-	}
-	
-	public Hashtable<String, Integer> getHashBigramContainTrigram(ArrayList<Candidate> trigram){
-		Hashtable<String, Integer> hashBiOnTrigram = new Hashtable<>();
-		for (Candidate candidate : trigram) {
-			String[] syllables = candidate.getName().split(" ");
-			String b1 = syllables[0] + " " + syllables[1];
-			String b2 = syllables[1] + " " + syllables[2];
-			hashBiOnTrigram.put(b1, candidate.getFreAB());
-			hashBiOnTrigram.put(b2, candidate.getFreAB());
-		}
-		return hashBiOnTrigram;
 	}
 	
 	public ArrayList<Candidate> copyCandidates(ArrayList<Candidate> cands){

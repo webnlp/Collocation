@@ -75,6 +75,9 @@ public class SuperData {
 		String[] elems = pathToFile.split("/");
 		return elems[elems.length - 1];
 	}
+	public Hashtable<String, Integer> getOccurOnFile(){
+		return occurOnFile;
+	}
 	@Override
 	public String toString() {
 		setReverseOccurOnFile();

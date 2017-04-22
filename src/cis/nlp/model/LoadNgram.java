@@ -239,6 +239,8 @@ public class LoadNgram {
 			ngramPath = outputBigram;
 		} else if(input.compareTo("trigram") == 0){
 			ngramPath = outputTrigram;
+		} else {
+			ngramPath = outputFourgram;
 		}
 		CountUnigram ngramAsUni = new CountUnigram();
 		ReadFile rf = new ReadFile();
